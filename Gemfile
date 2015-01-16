@@ -9,7 +9,6 @@ gem 'sass-rails'
 gem 'uglifier'
 gem 'jquery-rails'
 gem 'pg'
-gem 'therubyracer'
 
 group :development do
   gem 'thin'

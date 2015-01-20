@@ -7,8 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-Video.create(title: "Monk", description: "Lorem impsum...", small_cover_url: "/tmp/monk.jpg", large_cover_url: "/tmp/monk_large.jpg")
+Video.find_by(title: 'Family Guy').category = Category.create(name: 'TV Comedy')
 
-Video.create(title: "Family Guy", description: "Comedy Cartoon TV Series for mature audience", small_cover_url: "/tmp/family_guy.jpg", large_cover_url: "/tmp/monk_large.jpg")
+Video.find_by(title: 'South Park').category = Category.find_by(name: 'TV Comedy')
 
-Video.create(title: "South Park", description: "Cartoon TV Series with adult humor", small_cover_url: "/tmp/south_park.jpg", large_cover_url: "/tmp/monk_large.jpg")
+Video.find_by(title: 'Monk').category = Category.create(name: 'TV Drama')

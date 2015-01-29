@@ -1,7 +1,7 @@
 class Category < ActiveRecord::Base
-  has_many :videos, -> {order :title}
+  has_many :videos, -> {order "created_at DESC"}
 
-  def self.recent_videos(category_name)
-    Video.where( category: Category.find_by(name: category_name) ).order('created_at DESC')[0..5]
+  def recent_videos
+    videos.first(6)
   end
 end

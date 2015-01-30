@@ -1,7 +1,7 @@
 Myflix::Application.routes.draw do
   get 'ui(/:action)', controller: 'ui'
 
-  root to: 'videos#index'
+  root to: 'sessions#front'
 
   resources :videos, only: [:show] do
     collection do

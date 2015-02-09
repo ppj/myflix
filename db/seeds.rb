@@ -17,3 +17,5 @@ Video.create(title: "Futurama", description: "Comedy Cartoon TV Series about spa
 Video.create(title: "Family Guy", description: "Comedy Cartoon TV Series for mature audience", small_cover_url: "/tmp/family_guy.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
 Video.create(title: "Futurama", description: "Comedy Cartoon TV Series about space travel", small_cover_url: "/tmp/futurama.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
 Video.create(title: "South Park", description: "Cartoon TV Series with some crazy kids!", small_cover_url: "/tmp/south_park.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
+
+User.create(email: 'user@sample.com', password: 'pwd', fullname: 'Sample User')

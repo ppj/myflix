@@ -9,6 +9,7 @@ class UsersController < ApplicationController
       flash[:success] = "You have successfully registered. You can sign in now!"
       redirect_to sign_in_path
     else
+      flash[:danger] = "Please fix the highlighted errors before continuing..."
       render :new
     end
   end

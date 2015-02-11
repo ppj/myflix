@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_user
-    access_denied 'This action is restricted to registered users only. Please sign in/up.' unless logged_in?
+    access_denied 'This action is reserved for registered users only. Please sign in/up.' unless logged_in?
   end
 
   def access_denied(msg)

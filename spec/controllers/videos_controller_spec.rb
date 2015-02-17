@@ -19,14 +19,14 @@ describe VideosController do
 
   describe "POST search" do
     it "redirects to root for an unauthenticated user" do
-      get :search, search_string: 'A' 
+      get :search, search_string: 'A'
       expect(response).to redirect_to(root_path)
     end
-    
+
     it "finds a Video based on given name" do
       test_video = Fabricate(:video, title: 'The Big Bang Theory')
       session[:user_id] = Fabricate(:user).id
-      get :search, search_string: 'heor' 
+      get :search, search_string: 'heor'
       expect(assigns(:videos)).to eq([test_video])
     end
   end

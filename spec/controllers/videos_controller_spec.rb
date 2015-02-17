@@ -1,44 +1,33 @@
 require 'spec_helper'
 
 describe VideosController do
-  let(:test_user)  { Fabricate(:user) }
-  let(:test_video) { Fabricate(:video) }
-  describe "GET show" do
 
-    it "redirects to root when no user is signed in" do
+  describe "GET show" do
+    let(:test_video) { Fabricate(:video) }
+
+    it "redirects to root for an unauthenticated user" do
       get :show, id: test_video.id
       expect(response).to redirect_to(root_path)
     end
 
-    it "finds a Video based on given name" do
-      session[:user_id] = test_user.id
+    it "sets @video for an authenticated user" do
+      session[:user_id] = Fabricate(:user).id
       get :show, id: test_video.id
       expect(assigns(:video)).to eq(test_video)
     end
-
-    it "renders the show template" do
-      session[:user_id] = test_user.id
-      get :show, id: test_video.id
-      expect(response).to render_template(:show)
-    end
   end
 
-  describe "GET create" do
-    it "redirects to root when no user is signed in" do
+  describe "POST search" do
+    it "redirects to root for an unauthenticated user" do
       get :search, search_string: 'A' 
       expect(response).to redirect_to(root_path)
     end
     
     it "finds a Video based on given name" do
-      session[:user_id] = test_user.id
-      get :search, search_string: test_video.title.split.first
+      test_video = Fabricate(:video, title: 'The Big Bang Theory')
+      session[:user_id] = Fabricate(:user).id
+      get :search, search_string: 'heor' 
       expect(assigns(:videos)).to eq([test_video])
-    end
-
-    it "renders the show template" do
-      session[:user_id] = test_user.id
-      get :search, search_string: test_video.title.split.first
-      expect(response).to render_template(:search)
     end
   end
 

@@ -20,7 +20,7 @@ describe UsersController do
       expect(response).to redirect_to(sign_in_path)
     end
 
-    it "re-renders the new template if credentials are invalid" do
+    it "re-renders the registration form if credentials are invalid" do
       post :create, user: {fullname: 'P', password: Faker::Internet.password, email: Faker::Internet.email }
       expect(response).to render_template(:new)
     end

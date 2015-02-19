@@ -9,20 +9,34 @@ describe UsersController do
   end
 
   describe "POST create" do
-    it "creates new user given correct credentials" do
-      post :create, user: {fullname: 'Sample User', password: 'pwd', email: Faker::Internet.email }
-      expect(User.first.fullname).to eq('Sample User')
-      expect(User.first.authenticate('pwd')).to be_truthy
+    context "with valid credentials" do
+      before { post :create, user: Fabricate.attributes_for(:user) }
+
+      it "creates new user" do
+        expect(User.count).to eq(1)
+      end
+
+      it "then redirects to the sign-in page" do
+        expect(response).to redirect_to(sign_in_path)
+      end
     end
 
-    it "redirects to the sign-in path after creating the user" do
-      post :create, user: {fullname: Faker::Name.name, password: Faker::Internet.password, email: Faker::Internet.email }
-      expect(response).to redirect_to(sign_in_path)
-    end
+    context "with invalid credentials" do
+      before do
+        post :create, user: {fullname: 'P', password: 'pwd', email: 'a@b.com'}
+      end
 
-    it "re-renders the registration form if credentials are invalid" do
-      post :create, user: {fullname: 'P', password: Faker::Internet.password, email: Faker::Internet.email }
-      expect(response).to render_template(:new)
+      it "sets @user to a new User" do
+        expect(assigns(:user)).to be_a_new(User)
+      end
+
+      it "cannot save the new user" do
+        expect(User.count).to eq(0)
+      end
+
+      it "re-renders the registration form" do
+        expect(response).to render_template(:new)
+      end
     end
   end
 end

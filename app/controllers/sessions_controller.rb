@@ -1,6 +1,4 @@
 class SessionsController < ApplicationController
-  before_action :require_user, only: [:destroy]
-
   def new
     redirect_to home_path if logged_in?
   end
@@ -18,8 +16,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    flash[:success] = 'You have logged out.' if logged_in?
     session[:user_id] = nil
-    flash[:success] = 'You have logged out.'
     redirect_to root_path
   end
 end

@@ -14,7 +14,7 @@ describe SessionsController do
   end
 
   describe 'POST create' do
-    let(:test_user) { Fabricate(:user, email: 'a@b.com') }
+    let(:test_user) { Fabricate(:user) }
 
     context "with valid login credentials" do
       before {post :create, email: test_user.email, password: test_user.password}
@@ -22,8 +22,12 @@ describe SessionsController do
         expect(session[:user_id]).to eq(test_user.id)
       end
 
-      it "redirects to root-path after logging in" do
+      it "then redirects to root-path" do
         expect(response).to redirect_to(root_path)
+      end
+
+      it "also notifies the user of a successful login" do
+        expect(flash[:success]).to_not be_blank
       end
     end
 
@@ -34,22 +38,14 @@ describe SessionsController do
   end
 
   describe 'GET destroy' do
-    context "when a user is logged in" do
-      before do
-        test_user = Fabricate(:user)
-        post :create, email: test_user.email, password: test_user.password
-        get :destroy
-      end
-      it "logs the user out" do
-        expect(session[:user_id]).to be_nil
-      end
-
-      it "redirects to root-path after logging out" do
-        expect(response).to redirect_to(root_path)
-      end
+    it "logs the user out" do
+      session[:user_id] = Fabricate(:user).id
+      get :destroy
+      expect(session[:user_id]).to be_nil
     end
 
-    it "when no user is logged in, redirects to root-path" do
+    it "redirects to root-path after logging out" do
+      session[:user_id] = Fabricate(:user).id
       get :destroy
       expect(response).to redirect_to(root_path)
     end

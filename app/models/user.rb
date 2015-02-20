@@ -4,4 +4,5 @@ class User < ActiveRecord::Base
   validates :password, length: {minimum: 3}
   validates :email, length: {minimum: 5}, uniqueness: true
   validates :fullname, length: {minimum: 2}
+  has_many :reviews
 end

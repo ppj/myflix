@@ -9,4 +9,9 @@ describe Review do
       with_foreign_key('user_id')
   end
   it { should belong_to(:video) }
+  it "should update video rating after saving successfully" do
+    test_video = Fabricate(:video)
+    expect_any_instance_of(Video).to receive(:update_rating!).with(no_args)
+    Review.create(Fabricate.attributes_for(:review, rating: 3, video: test_video))
+  end
 end

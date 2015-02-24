@@ -6,5 +6,20 @@
       .video_info.col-sm-3
         %header
           %h3= @video.title.titleize
-          %span Rating: 4.5/5.0
+          %span Rating: #{@video.rating}/5.0
         %p= @video.description
+
+%section.reviews.container
+  .row
+    .col-sm-10.col-sm-offset-1
+      %header
+        %h3 User Reviews (#{@video.reviews.count})
+      %ul
+        - @video.reviews.each do |review|
+          %article.review
+            %li.row
+              .col-sm-2
+                %span Rating: #{review.rating}/ 5
+                %p by <a href="">#{review.creator.fullname}</a>
+              .col-sm-8
+                %p= review.body

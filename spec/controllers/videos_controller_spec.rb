@@ -15,6 +15,12 @@ describe VideosController do
       get :show, id: test_video.id
       expect(assigns(:video)).to eq(test_video)
     end
+
+    it "sets @review to a new review for an authenticated user" do
+      session[:user_id] = Fabricate(:user).id
+      get :show, id: test_video.id
+      expect(assigns(:review)).to be_a_new(Review)
+    end
   end
 
   describe "POST search" do

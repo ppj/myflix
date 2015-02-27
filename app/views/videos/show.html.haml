@@ -12,6 +12,17 @@
 %section.reviews.container
   .row
     .col-sm-10.col-sm-offset-1
+      = bootstrap_form_for([@video, @review], control_col: "col-sm-6") do |f|
+        %fieldset
+          .row
+            .col-sm-3
+              = f.select(:rating, (1..5).to_a.reverse.map {|n| ["#{n} Star".pluralize(n), n] }, label: 'Rate this video')
+          .row
+            .col-sm-8
+              = f.text_area :body, label: 'Your Review', rows: '6'
+        %fieldset.form-group.actions.clearfix
+          = f.submit "Submit", class: 'btn'
+          = link_to "Cancel", ""
       %header
         %h3 User Reviews (#{@video.reviews.count})
       %ul

@@ -16,17 +16,17 @@
         %fieldset
           .row
             .col-sm-3
-              = f.select(:rating, (1..5).to_a.reverse.map {|n| ["#{n} Star".pluralize(n), n] }, label: 'Rate this video')
+              = f.select(:rating, [5,4,3,2,1].map {|n| [pluralize(n, "Star"), n] }, label: 'Rate this video')
           .row
             .col-sm-8
               = f.text_area :body, label: 'Your Review', rows: '6'
         %fieldset.form-group.actions.clearfix
           = f.submit "Submit", class: 'btn'
-          = link_to "Cancel", ""
+          = link_to "Cancel", @video
       %header
         %h3 User Reviews (#{@video.reviews.count})
       %ul
-        - @video.reviews.each do |review|
+        - @video.reviews.reload.each do |review|
           %article.review
             %li.row
               .col-sm-2

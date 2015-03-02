@@ -13,10 +13,6 @@ class Video < ActiveRecord::Base
   private
 
   def update_rating!
-    if self.reviews.empty?
-      self.rating = 1.0
-    else
-      self.rating = self.reviews.average(:rating)
-    end
+    self.rating = self.reviews.empty? ? nil : self.reviews.average(:rating)
   end
 end

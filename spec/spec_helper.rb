@@ -42,7 +42,7 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  config.order = "defined"
+  config.order = "random"
 
   # Show the output in documentation mode
   # Set it to 'progress', 'html', 'json', 'textmate' ... see help for details

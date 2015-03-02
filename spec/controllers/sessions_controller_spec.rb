@@ -27,7 +27,7 @@ describe SessionsController do
       end
 
       it "also notifies the user of a successful login" do
-        expect(flash[:success]).to_not be_blank
+        expect(flash[:success]).to be_present
       end
     end
 

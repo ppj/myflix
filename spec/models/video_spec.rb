@@ -37,28 +37,26 @@ describe Video do
     end
   end
 
-  describe "#update_rating!" do
+  describe "#rating" do
     let(:test_video) { Fabricate(:video) }
     let(:current_user) { Fabricate(:user) }
 
-    it "sets rating to the same as that of the only review" do
+    it "returns the rating of the only review for that video" do
       test_video.reviews.create(body: "This is just a sample review!", rating: 3, creator: current_user)
-      test_video.save
       expect(test_video.rating).to eq(3.0)
     end
 
-    it "sets rating to the average of the ratings of all reviews" do
+    it "returns the average of the ratings of all reviews for that video" do
       test_video.reviews.create(body: "This is a superb video!", rating: 5, creator: current_user)
+      test_video.reviews.create(body: "This isn't a complete waste.", rating: 3, creator: current_user)
       test_video.reviews.create(body: "This is a stupid video!", rating: 2, creator: current_user)
-      test_video.save
-      expect(test_video.rating).to eq(3.5)
+      expect(test_video.rating).to eq(3.3)
     end
 
-    it "resets rating to nil after all (or only) reviews have been deleted"do
+    it "returns nil if the video has no reviews"do
       test_video.reviews.create(body: "This is a superb video!", rating: 5)
       test_video.reviews.create(body: "This is a stupid video!", rating: 2)
       test_video.reviews.clear
-      test_video.save
       expect(test_video.rating).to be_nil
     end
   end

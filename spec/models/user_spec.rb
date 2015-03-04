@@ -7,4 +7,5 @@ describe User do
   it { should validate_uniqueness_of(:email) }
   it { should validate_length_of(:fullname).is_at_least(2) }
   it { should have_many(:reviews) }
+  it { should have_many(:queue_items) }
 end

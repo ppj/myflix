@@ -9,17 +9,15 @@
 comedy = Category.create(name: 'TV Comedy')
 drama  = Category.create(name: 'TV Drama')
 
-Video.create(title: "Monk", description: "Lorem impsum...", small_cover_url: "/tmp/monk.jpg", large_cover_url: "/tmp/monk_large.jpg", category: drama)
-Video.create(title: "South Park", description: "Cartoon TV Series with some crazy kids!", small_cover_url: "/tmp/south_park.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
-Video.create(title: "Family Guy", description: "Comedy Cartoon TV Series for mature audience", small_cover_url: "/tmp/family_guy.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
-Video.create(title: "South Park", description: "Cartoon TV Series with some crazy kids!", small_cover_url: "/tmp/south_park.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
-Video.create(title: "Futurama", description: "Comedy Cartoon TV Series about space travel", small_cover_url: "/tmp/futurama.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
-Video.create(title: "Family Guy", description: "Comedy Cartoon TV Series for mature audience", small_cover_url: "/tmp/family_guy.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
-Video.create(title: "Futurama", description: "Comedy Cartoon TV Series about space travel", small_cover_url: "/tmp/futurama.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
-Video.create(title: "South Park", description: "Cartoon TV Series with some crazy kids!", small_cover_url: "/tmp/south_park.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
+monk = Video.create(title: "Monk", description: "Lorem impsum...", small_cover_url: "/tmp/monk.jpg", large_cover_url: "/tmp/monk_large.jpg", category: drama)
+south_park = Video.create(title: "South Park", description: "Cartoon TV Series with some crazy kids!", small_cover_url: "/tmp/south_park.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
+family_guy = Video.create(title: "Family Guy", description: "Comedy Cartoon TV Series for mature audience", small_cover_url: "/tmp/family_guy.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
+futurama = Video.create(title: "Futurama", description: "Comedy Cartoon TV Series about space travel", small_cover_url: "/tmp/futurama.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
 
-User.create(email: 'user@sample.com', password: 'pwd', fullname: 'Sample User')
+user = User.create(email: 'user@sample.com', password: 'pwd', fullname: 'Sample User')
+user.queue_items.create(video: monk, position: 1)
+user.queue_items.create(video: family_guy, position: 2)
 
-Review.create(body: "This is simply awesome! Must watch!", rating: 5, creator: User.first, video: Video.first)
-Review.create(body: "This is a load of nonsense. Skip it.", rating: 1, creator: User.first, video: Video.first)
+Review.create(body: "This is simply awesome! Must watch!", rating: 5, creator: User.first, video: family_guy)
+Review.create(body: "This is a load of nonsense. Skip it.", rating: 1, creator: User.first, video: south_park)
 

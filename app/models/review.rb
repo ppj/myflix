@@ -6,4 +6,5 @@ class Review < ActiveRecord::Base
   validates_presence_of :video_id
   validates_inclusion_of :rating, in: 1..5
   validates :body, length: { minimum: 10 }
+  validates_uniqueness_of :user_id, scope: :video_id
 end

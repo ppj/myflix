@@ -9,7 +9,8 @@ class ReviewsController < ApplicationController
       flash[:success] = "Review was successfully submitted."
       redirect_to video_path(@review.video)
     else
-      flash.now[:danger] = "Please fix the highlighted errors before submitting..."
+      # FIXME: Better error should show if same user tries to submit multiple reviews for the same video
+      flash.now[:danger] = "There were errors trying to submit the review."
       render 'videos/show'
     end
   end

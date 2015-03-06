@@ -8,7 +8,9 @@
           %h3= @video.title.titleize
           %span Rating: #{video_rating}
         %p= @video.description
-
+        .actions
+          %a.btn.btn-primary(href="") Watch Now
+          = link_to "+ My Queue", new_video_queue_item_path(@video.id), class: "btn btn-default"
 %section.reviews.container
   .row
     .col-sm-10.col-sm-offset-1

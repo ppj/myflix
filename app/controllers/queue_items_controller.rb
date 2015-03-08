@@ -5,7 +5,7 @@ class QueueItemsController < ApplicationController
     @queue_items = current_user.queue_items
   end
 
-  def new
+  def create
     current_user.queue_items.create(video: Video.find(params[:video_id]))
     redirect_to my_queue_path
   end

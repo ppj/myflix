@@ -6,7 +6,6 @@ Myflix::Application.routes.draw do
 
   resources :videos, only: [:show, :index] do
     resources :reviews, only: [:create]
-    resources :queue_items, only: [:new]
     collection do
       get 'search', to: 'videos#search'
     end
@@ -20,6 +19,7 @@ Myflix::Application.routes.draw do
 
   resources :sessions, only: [:create]
   resources :users, only: [:create]
+  resources :queue_items, only: [:create]
 
   get '/genre/:id', to: 'categories#show', as: 'category'
 end

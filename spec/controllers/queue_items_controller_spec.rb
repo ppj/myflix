@@ -31,6 +31,16 @@ describe QueueItemsController do
         expect(current_user.queue_items.map(&:video)).to include(video)
       end
 
+      it "associates the queue_item to the logged in user" do
+        post :create, video_id: video.id
+        expect(QueueItem.first.user).to eq(current_user)
+      end
+
+      it "associates the queue_item to the current video" do
+        post :create, video_id: video.id
+        expect(QueueItem.first.video).to eq(video)
+      end
+
       it "adds a queue_item to the end of the queue" do
         current_user.queue_items.create(video: video)
         post :create, video_id: Fabricate(:video).id

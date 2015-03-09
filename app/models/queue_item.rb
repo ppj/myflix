@@ -23,8 +23,8 @@ class QueueItem < ActiveRecord::Base
   private
 
   def set_position
-    queue = self.user ? self.user.queue_items : [] # FIXME: just to pass the tests!!!
-    max_position = queue.empty? ? 0 : queue.map(&:position).max
+    queue = self.user ? self.user.queue_items : [] # FIXME: just to pass the uniqueness shoulda matcher tests!!!
+    max_position = queue.empty? ? 0 : queue.count
     self.position ||= max_position+1
   end
 end

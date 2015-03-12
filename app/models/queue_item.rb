@@ -26,7 +26,7 @@ class QueueItem < ActiveRecord::Base
   def set_position
     queue = self.user ? self.user.queue_items : [] # FIXME: just to pass the uniqueness shoulda matcher tests!!!
     max_position = queue.empty? ? 0 : queue.count
-    self.position = max_position+1
+    self.position = max_position + 1
   end
 
   def reassign_positions
@@ -34,7 +34,7 @@ class QueueItem < ActiveRecord::Base
       queue_item.user == self.user and queue_item.position > self.position
     end
     remaining_queue.each do |queue_item|
-      queue_item.update(position: queue_item.position-1)
+      queue_item.update(position: queue_item.position - 1)
     end
   end
 end

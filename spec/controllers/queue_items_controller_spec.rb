@@ -74,6 +74,12 @@ describe QueueItemsController do
         expect{ delete :destroy, id: queue_item.id }.to change{ user.queue_items.count }.by(-1)
       end
 
+      it "does not delete a queue_item that does not belong to the current user" do
+        queue_item2 = Fabricate(:queue_item, user: Fabricate(:user), video: video)
+        delete :destroy, id: queue_item2.id
+        expect(QueueItem.count).to eq(2)
+      end
+
       it "does not affect user's queue if queue_item is not found" do
         expect{ delete :destroy, id: queue_item.id+10 }.to change{ user.queue_items.count }.by(0)
       end

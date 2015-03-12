@@ -12,7 +12,7 @@ class QueueItemsController < ApplicationController
 
   def destroy
     begin
-      queue_item = QueueItem.find(params[:id])
+      queue_item = QueueItem.find_by(id: params[:id], user: current_user)
     rescue ActiveRecord::RecordNotFound
     else
       queue_item.destroy if queue_item

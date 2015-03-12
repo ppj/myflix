@@ -61,4 +61,32 @@ describe QueueItemsController do
 
     end
   end
+
+  describe "DELETE destroy" do
+    let(:user) { Fabricate(:user) }
+    let(:video) { Fabricate(:video) }
+    let!(:queue_item) { Fabricate(:queue_item, user: user, video: video) }
+
+    context "for an authenticated user" do
+      before { session[:user_id] = user.id }
+
+      it "deletes the linked queue_item if found" do
+        expect{ delete :destroy, id: queue_item.id }.to change{ user.queue_items.count }.by(-1)
+      end
+
+      it "does not affect user's queue if queue_item is not found" do
+        expect{ delete :destroy, id: queue_item.id+10 }.to change{ user.queue_items.count }.by(0)
+      end
+
+      it "redirects to the my_queue page" do
+        delete :destroy, id: queue_item.id
+        expect(response).to redirect_to(my_queue_path)
+      end
+    end
+
+    it "redirects to the front page for an unauthenticated user" do
+      delete :destroy, id: 2
+      expect(response).to redirect_to(root_path)
+    end
+  end
 end

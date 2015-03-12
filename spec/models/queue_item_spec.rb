@@ -62,4 +62,16 @@ describe QueueItem do
       expect(queue_item.position).to eq(2)
     end
   end
+
+  describe "#position_reassignment" do
+    let(:user) { Fabricate(:user) }
+
+    it "reassigns position values on deletion of an intermediate queue item" do
+      queue_item1 = user.queue_items.create(video: Fabricate(:video))
+      queue_item2 = user.queue_items.create(video: Fabricate(:video))
+      queue_item3 = user.queue_items.create(video: Fabricate(:video))
+      queue_item4 = user.queue_items.create(video: Fabricate(:video))
+      expect{ queue_item3.destroy }.to change{ queue_item4.reload.position }.by(-1)
+    end
+  end
 end

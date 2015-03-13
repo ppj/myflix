@@ -47,9 +47,9 @@ describe Video do
     end
 
     it "returns the average of the ratings of all reviews for that video" do
-      test_video.reviews.create(body: "This is a superb video!", rating: 5, creator: current_user)
-      test_video.reviews.create(body: "This isn't a complete waste.", rating: 3, creator: current_user)
-      test_video.reviews.create(body: "This is a stupid video!", rating: 2, creator: current_user)
+      test_video.reviews.create(body: "This is a superb video!", rating: 5, creator: Fabricate(:user))
+      test_video.reviews.create(body: "This isn't a complete waste.", rating: 3, creator: Fabricate(:user))
+      test_video.reviews.create(body: "This is a stupid video!", rating: 2, creator: Fabricate(:user))
       expect(test_video.rating).to eq(3.3)
     end
 

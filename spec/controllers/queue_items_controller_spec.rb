@@ -95,4 +95,23 @@ describe QueueItemsController do
       expect(response).to redirect_to(root_path)
     end
   end
+
+  describe "POST update_queue" do
+    let(:user) { Fabricate(:user) }
+    let!(:queue_item1) { Fabricate(:queue_item, user: user) }
+    let!(:queue_item2) { Fabricate(:queue_item, user: user) }
+    context "for an authenticated user" do
+      before { session[:user_id] = user.id }
+
+      it "redirects to the my_queue page" do
+        post :update_queue
+        expect(response).to redirect_to(my_queue_path)
+      end
+    end
+
+    it "redirects to the front page for an unauthenticated user" do
+      post :update_queue
+      expect(response).to redirect_to(root_path)
+    end
+  end
 end

@@ -48,30 +48,18 @@ describe QueueItem do
     end
   end
 
-  describe "#set_position" do
+  describe "on additon of a new video in the user's queue" do
     let(:user) { Fabricate(:user) }
 
-    it "sets the position to 1 upon creation of first item for a user" do
+    it "sets the position to 1 for the first addtion" do
       queue_item = user.queue_items.create(video: Fabricate(:video))
       expect(queue_item.position).to eq(1)
     end
 
-    it "sets the position to max + 1 upon addition of a queue_itme" do
+    it "sets the queue item's position to user's queue item count + 1" do
       user.queue_items.create(video: Fabricate(:video))
       queue_item = user.queue_items.create(video: Fabricate(:video))
       expect(queue_item.position).to eq(2)
-    end
-  end
-
-  describe "#position_reassignment" do
-    let(:user) { Fabricate(:user) }
-
-    it "reassigns position values on deletion of an intermediate queue item" do
-      queue_item1 = user.queue_items.create(video: Fabricate(:video))
-      queue_item2 = user.queue_items.create(video: Fabricate(:video))
-      queue_item3 = user.queue_items.create(video: Fabricate(:video))
-      queue_item4 = user.queue_items.create(video: Fabricate(:video))
-      expect{ queue_item3.destroy }.to change{ queue_item4.reload.position }.by(-1)
     end
   end
 end

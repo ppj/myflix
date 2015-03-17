@@ -58,7 +58,6 @@ describe QueueItemsController do
         post :create, video_id: video.id
         expect(response).to redirect_to(root_path)
       end
-
     end
   end
 
@@ -100,6 +99,7 @@ describe QueueItemsController do
     let(:user) { Fabricate(:user) }
     let!(:queue_item1) { Fabricate(:queue_item, user: user) }
     let!(:queue_item2) { Fabricate(:queue_item, user: user) }
+
     context "for an authenticated user" do
       before { session[:user_id] = user.id }
 

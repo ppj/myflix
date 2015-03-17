@@ -11,12 +11,8 @@ class QueueItemsController < ApplicationController
   end
 
   def destroy
-    begin
-      queue_item = QueueItem.find_by(id: params[:id], user: current_user)
-    rescue ActiveRecord::RecordNotFound
-    else
-      queue_item.destroy if queue_item
-    end
+    queue_item = QueueItem.find_by(id: params[:id], user: current_user)
+    queue_item.destroy if queue_item
     redirect_to my_queue_path
   end
 

@@ -1,10 +1,11 @@
 class QueueItem < ActiveRecord::Base
-  before_create :set_position
+  before_validation :set_position, on: :create
 
   belongs_to :user
   belongs_to :video
   validates_uniqueness_of :video_id, scope: :user_id
   validates_presence_of :user
+  validates_numericality_of :position, only_integer: true
 
   delegate :title, to: :video, prefix: :video
 
@@ -23,6 +24,6 @@ class QueueItem < ActiveRecord::Base
 
   def set_position
     queue = QueueItem.where(user: self.user)
-    self.position = queue.count + 1
+    self.position ||= queue.count + 1
   end
 end

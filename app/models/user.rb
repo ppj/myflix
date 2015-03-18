@@ -6,4 +6,10 @@ class User < ActiveRecord::Base
   validates :password, length: {minimum: 3}
   validates :email, length: {minimum: 5}, uniqueness: true
   validates :fullname, length: {minimum: 2}
+
+  def normalize_queue_item_positions
+    queue_items.each_with_index do |queue_item, index|
+      queue_item.update_attributes(position: index+1)
+    end
+  end
 end

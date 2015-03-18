@@ -14,7 +14,7 @@ class QueueItemsController < ApplicationController
     queue_item = QueueItem.find_by(id: params[:id], user: current_user)
     if queue_item
       queue_item.destroy
-      normalize_user_queue_positions
+      current_user.normalize_queue_item_positions
     end
     redirect_to my_queue_path
   end
@@ -25,7 +25,7 @@ class QueueItemsController < ApplicationController
     rescue ActiveRecord::RecordInvalid
       flash[:danger] = "Invalid position value."
     else # ActiveRecord::RecordInvalid was not raised
-      normalize_user_queue_positions
+      current_user.normalize_queue_item_positions
     end
     redirect_to my_queue_path
   end
@@ -48,12 +48,6 @@ class QueueItemsController < ApplicationController
       offset_position = current_user.queue_items.count + new_position_input_string.to_i
     else
       offset_position = "invalid (non-integer) input value for position"
-    end
-  end
-
-  def normalize_user_queue_positions
-    current_user.queue_items.each_with_index do |queue_item, index|
-      queue_item.update_attributes(position: index+1)
     end
   end
 end

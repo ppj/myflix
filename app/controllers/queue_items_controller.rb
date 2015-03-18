@@ -12,7 +12,10 @@ class QueueItemsController < ApplicationController
 
   def destroy
     queue_item = QueueItem.find_by(id: params[:id], user: current_user)
-    queue_item.destroy if queue_item
+    if queue_item
+      queue_item.destroy
+      normalize_user_queue_positions
+    end
     redirect_to my_queue_path
   end
 

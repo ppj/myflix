@@ -64,13 +64,20 @@ describe QueueItemsController do
   describe "DELETE destroy" do
     let(:user) { Fabricate(:user) }
     let(:video) { Fabricate(:video) }
-    let!(:queue_item) { Fabricate(:queue_item, user: user, video: video) }
+    let!(:queue_item) { Fabricate(:queue_item, user: user, position: 1) }
 
     context "for an authenticated user" do
       before { session[:user_id] = user.id }
 
       it "deletes the linked queue_item if found" do
         expect{ delete :destroy, id: queue_item.id }.to change{ user.queue_items.count }.by(-1)
+      end
+
+      it "normalizes the positions in user's queue after deletion" do
+        queue_item2 = Fabricate(:queue_item, user: user, position: 2)
+        queue_item3 = Fabricate(:queue_item, user: user, position: 3)
+        delete :destroy, id: queue_item2.id
+        expect(queue_item3.reload.position).to eq(2)
       end
 
       it "does not delete a queue_item that does not belong to the current user" do

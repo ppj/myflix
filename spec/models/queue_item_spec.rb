@@ -31,6 +31,29 @@ describe QueueItem do
     end
   end
 
+  describe "#rating=" do
+    let(:user) { Fabricate(:user) }
+    let(:video) { Fabricate(:video, title: 'Shawshank Redemption') }
+    let(:queue_item) { Fabricate(:queue_item, video: video, user: user) }
+
+    it "changes the rating of an existing review" do
+      review = Fabricate(:review, creator: user, rating: 2, video: video)
+      queue_item.rating = 4
+      expect(Review.first.rating).to eq(4)
+    end
+
+    it "removes the rating of an existing review" do
+      review = Fabricate(:review, creator: user, rating: 2, video: video)
+      queue_item.rating = nil
+      expect(Review.first.rating).to be_nil
+    end
+
+    it "creates a new review with the rating" do
+      queue_item.rating = 3
+      expect(Review.first.rating).to eq(3)
+    end
+  end
+
   describe "#category" do
     it "returns the category of the associated video" do
       category = Fabricate(:category)

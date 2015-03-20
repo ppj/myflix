@@ -32,11 +32,11 @@ class QueueItem < ActiveRecord::Base
   private
 
   def review
-    @review ||= Review.where(creator: user, video: video).first
+    @review ||= Review.find_by(creator: user, video: video)
   end
 
   def set_position
-    queue = QueueItem.where(user: self.user)
+    queue = QueueItem.where(user: user)
     self.position ||= queue.count + 1
   end
 end

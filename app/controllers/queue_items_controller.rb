@@ -36,14 +36,14 @@ class QueueItemsController < ApplicationController
     ActiveRecord::Base.transaction do
       params[:queue_items].each do |queue_item_data|
         queue_item = QueueItem.find queue_item_data[:id]
-        offset_position = get_new_offset_position queue_item_data[:position]
+        offset_position = new_offset_position queue_item_data[:position]
         queue_item.update_attributes!(position: offset_position, rating: queue_item_data[:rating]) if queue_item.user == current_user
       end
     end
   end
 
   # To avoid getting a non-unique position value error for a user's queue, temporarily offset the input position value by the number of queue_items in the user's queue (normalize_user_queue_positions will remove the offset later)
-  def get_new_offset_position(new_position_input_string)
+  def new_offset_position(new_position_input_string)
     if new_position_input_string.to_i.to_s == new_position_input_string
       offset_position = current_user.queue_items.count + new_position_input_string.to_i
     else

@@ -21,7 +21,7 @@ class QueueItemsController < ApplicationController
 
   def update_queue
     begin
-      update_user_queue_positions
+      update_user_queue_attributes
     rescue ActiveRecord::RecordInvalid
       flash[:danger] = "Invalid position value."
     else # ActiveRecord::RecordInvalid was not raised
@@ -32,12 +32,12 @@ class QueueItemsController < ApplicationController
 
   private
 
-  def update_user_queue_positions
+  def update_user_queue_attributes
     ActiveRecord::Base.transaction do
       params[:queue_items].each do |queue_item_data|
         queue_item = QueueItem.find queue_item_data[:id]
         offset_position = get_new_offset_position queue_item_data[:position]
-        queue_item.update_attributes!(position: offset_position) if queue_item.user == current_user
+        queue_item.update_attributes!(position: offset_position, rating: queue_item_data[:rating]) if queue_item.user == current_user
       end
     end
   end

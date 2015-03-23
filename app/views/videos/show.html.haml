@@ -18,7 +18,7 @@
         %fieldset
           .row
             .col-sm-3
-              = f.select(:rating, [5,4,3,2,1].map {|n| [pluralize(n, "Star"), n] }, label: 'Rate this video')
+              = f.select(:rating, options_for_video_rating, label: 'Rate this video')
           .row
             .col-sm-8
               = f.text_area :body, label: 'Your Review', rows: '6'

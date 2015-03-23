@@ -104,10 +104,8 @@ describe QueueItemsController do
 
   describe "POST update_queue" do
     let(:user) { Fabricate(:user) }
-    let(:video1) { Fabricate(:video) }
-    let(:video2) { Fabricate(:video) }
-    let(:queue_item1) { Fabricate(:queue_item, user: user, position: 1, video: video1) }
-    let(:queue_item2) { Fabricate(:queue_item, user: user, position: 2, video: video2) }
+    let(:queue_item1) { Fabricate(:queue_item, user: user, position: 1) }
+    let(:queue_item2) { Fabricate(:queue_item, user: user, position: 2) }
 
     context "with valid inputs" do
       before { session[:user_id] = user.id }
@@ -129,10 +127,39 @@ describe QueueItemsController do
         expect(queue_item2.reload.position).to eq(1)
       end
 
-      it "positions an item AFTER an item with the same position number" do
-        post :update_queue, queue_items: [{id: queue_item1.id, position: 2}, {id: queue_item2.id, position: 2}]
+      context "with repeated position input" do
+        it "repositions item if new postion > current position" do
+          post :update_queue, queue_items: [{id: queue_item1.id, position: 2}, {id: queue_item2.id, position: 2}]
+          expect(queue_item1.reload.position).to eq(2)
+          expect(queue_item2.reload.position).to eq(1)
+        end
+
+        it "does not reposition if new position = current_position - 1" do
+          post :update_queue, queue_items: [{id: queue_item1.id, position: 1}, {id: queue_item2.id, position: 1}]
+          expect(queue_item1.reload.position).to eq(1)
+          expect(queue_item2.reload.position).to eq(2)
+        end
+
+        it "repositions item to (new position + 1) if new postion < current position - 1" do
+          queue_item3 = Fabricate(:queue_item, user: user, position: 3)
+          post :update_queue, queue_items: [{id: queue_item1.id, position: 1}, {id: queue_item2.id, position: 2}, {id: queue_item3.id, position: 1}]
+          expect(queue_item1.reload.position).to eq(1)
+          expect(queue_item2.reload.position).to eq(3)
+          expect(queue_item3.reload.position).to eq(2)
+        end
+      end
+
+      it "repositions item to the end if new position >= number of queue items" do
+        post :update_queue, queue_items: [{id: queue_item1.id, position: 3}, {id: queue_item2.id, position: 2}]
         expect(queue_item1.reload.position).to eq(2)
         expect(queue_item2.reload.position).to eq(1)
+      end
+
+      it "repositions item to the start if new position (<)= 0" do
+        post :update_queue, queue_items: [{id: queue_item1.id, position: 1}, {id: queue_item2.id, position: 0}]
+        expect(queue_item1.reload.position).to eq(2)
+        expect(queue_item2.reload.position).to eq(1)
+
       end
 
       it "does not reassign positions if queue item doesn't belong to logged in user" do

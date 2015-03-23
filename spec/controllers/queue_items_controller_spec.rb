@@ -129,6 +129,12 @@ describe QueueItemsController do
         expect(queue_item2.reload.position).to eq(1)
       end
 
+      it "positions an item AFTER an item with the same position number" do
+        post :update_queue, queue_items: [{id: queue_item1.id, position: 2}, {id: queue_item2.id, position: 2}]
+        expect(queue_item1.reload.position).to eq(2)
+        expect(queue_item2.reload.position).to eq(1)
+      end
+
       it "does not reassign positions if queue item doesn't belong to logged in user" do
         queue_item3 = Fabricate(:queue_item, position: 10)
         post :update_queue, queue_items: [{id: queue_item3.id, position: 1}]
@@ -138,12 +144,6 @@ describe QueueItemsController do
 
     context "with invalid inputs" do
       before { session[:user_id] = user.id }
-
-      it "does not do any position reassignment if non-unique positions are specified" do
-        post :update_queue, queue_items: [{id: queue_item1.id, position: 3}, {id: queue_item2.id, position: 3}]
-        expect(queue_item1.reload.position).to eq(1)
-        expect(queue_item2.reload.position).to eq(2)
-      end
 
       it "does not do any position reassignment if any position is not an integer" do
         post :update_queue, queue_items: [{id: queue_item1.id, position: 2}, {id: queue_item2.id, position: 9.3434}]
@@ -160,7 +160,6 @@ describe QueueItemsController do
         post :update_queue, queue_items: []
         expect(response).to redirect_to(my_queue_path)
       end
-
     end
 
     context "for an unauthenticated user" do

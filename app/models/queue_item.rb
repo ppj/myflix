@@ -1,18 +1,25 @@
 class QueueItem < ActiveRecord::Base
-  before_create :set_position
-  after_destroy :reassign_positions
+  before_validation :set_position, on: :create
 
   belongs_to :user
   belongs_to :video
   validates_uniqueness_of :video_id, scope: :user_id
-  validates_uniqueness_of :position, scope: :user_id
   validates_presence_of :user
+  validates_numericality_of :position, only_integer: true
 
   delegate :title, to: :video, prefix: :video
 
   def rating
-    review = Review.where(creator: user, video: video).first
     review.rating if review
+  end
+
+  def rating=(new_rating)
+    if review
+      review.update_attribute(:rating, new_rating) # update_attribute skips validations
+    else
+      review = Review.new(creator: user, video: video, rating: new_rating)
+      review.save(validate: false)
+    end
   end
 
   delegate :category, to: :video
@@ -23,18 +30,12 @@ class QueueItem < ActiveRecord::Base
 
   private
 
-  def set_position
-    queue = self.user ? self.user.queue_items : [] # FIXME: just to pass the uniqueness shoulda matcher tests!!!
-    max_position = queue.empty? ? 0 : queue.count
-    self.position = max_position + 1
+  def review
+    @review ||= Review.find_by(creator: user, video: video)
   end
 
-  def reassign_positions
-    remaining_queue = QueueItem.all.select do |queue_item|
-      queue_item.user == self.user and queue_item.position > self.position
-    end
-    remaining_queue.each do |queue_item|
-      queue_item.update(position: queue_item.position - 1)
-    end
+  def set_position
+    queue = QueueItem.where(user: user)
+    self.position ||= queue.count + 1
   end
 end

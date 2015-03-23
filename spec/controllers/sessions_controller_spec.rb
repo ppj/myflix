@@ -37,16 +37,16 @@ describe SessionsController do
     end
   end
 
-  describe 'GET destroy' do
+  describe 'DELETE destroy' do
     it "logs the user out" do
       session[:user_id] = Fabricate(:user).id
-      get :destroy
+      delete :destroy
       expect(session[:user_id]).to be_nil
     end
 
     it "redirects to root-path after logging out" do
       session[:user_id] = Fabricate(:user).id
-      get :destroy
+      delete :destroy
       expect(response).to redirect_to(root_path)
     end
   end

@@ -6,10 +6,8 @@ describe VideosController do
   describe "GET show" do
     let(:test_video) { Fabricate(:video) }
 
-    it "redirects to root for an unauthenticated user" do
-      sign_out
-      get :show, id: test_video.id
-      expect(response).to redirect_to(root_path)
+    it_behaves_like "a signed out user" do
+      let(:action) { get :show, id: test_video.id }
     end
 
     it "sets @video for an authenticated user" do
@@ -24,10 +22,8 @@ describe VideosController do
   end
 
   describe "POST search" do
-    it "redirects to root for an unauthenticated user" do
-      sign_out
-      get :search, search_string: 'A'
-      expect(response).to redirect_to(root_path)
+    it_behaves_like "a signed out user" do
+      let(:action) { get :search, search_string: 'A' }
     end
 
     it "finds a Video based on given name" do

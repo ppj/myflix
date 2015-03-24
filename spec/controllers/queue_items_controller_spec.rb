@@ -11,10 +11,8 @@ describe QueueItemsController do
       expect(assigns(:queue_items)).to match_array([queue_item1, queue_item2])
     end
 
-    it "redirects to front page for unauthenticated user" do
-      sign_out
-      get :index
-      expect(response).to redirect_to(root_path)
+    it_behaves_like "a signed out user" do
+      let(:action) { get :index }
     end
   end
 
@@ -49,12 +47,8 @@ describe QueueItemsController do
       end
     end
 
-    context "for an unuthenticated user" do
-      it "redirects to the front page" do
-        sign_out
-        post :create, video_id: video.id
-        expect(response).to redirect_to(root_path)
-      end
+    it_behaves_like "a signed out user" do
+      let(:action) { post :create, video_id: video.id }
     end
   end
 
@@ -89,10 +83,8 @@ describe QueueItemsController do
       end
     end
 
-    it "redirects to the front page for an unauthenticated user" do
-      sign_out
-      delete :destroy, id: 2
-      expect(response).to redirect_to(root_path)
+    it_behaves_like "a signed out user" do
+      let(:action) { delete :destroy, id: 2 }
     end
   end
 
@@ -178,12 +170,8 @@ describe QueueItemsController do
       end
     end
 
-    context "for an unauthenticated user" do
-      it "redirects to the front page for an unauthenticated user" do
-        sign_out
-        post :update_queue
-        expect(response).to redirect_to(root_path)
-      end
+    it_behaves_like "a signed out user" do
+      let(:action) { post :update_queue }
     end
   end
 end

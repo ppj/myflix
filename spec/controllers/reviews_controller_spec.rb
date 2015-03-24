@@ -59,12 +59,8 @@ describe ReviewsController do
       end
     end
 
-    context "with unauthenticated user" do
-      it "redirects to home page" do
-        sign_out
-        post :create, { video_id: test_video.id, review: Fabricate.attributes_for(:review) }
-        expect(response).to redirect_to(root_path)
-      end
+    it_behaves_like "a signed out user" do
+      let(:action) { post :create, { video_id: test_video.id, review: Fabricate.attributes_for(:review) } }
     end
   end
 end

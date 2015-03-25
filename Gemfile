@@ -29,6 +29,7 @@ group :test do
   gem 'shoulda-matchers', require: false
   gem 'fabrication'
   gem 'faker'
+  gem 'capybara'
 end
 
 group :production do

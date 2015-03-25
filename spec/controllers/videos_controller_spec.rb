@@ -6,7 +6,7 @@ describe VideosController do
   describe "GET show" do
     let(:test_video) { Fabricate(:video) }
 
-    it_behaves_like "a signed out user" do
+    it_behaves_like "a security guard" do
       let(:action) { get :show, id: test_video.id }
     end
 
@@ -22,7 +22,7 @@ describe VideosController do
   end
 
   describe "POST search" do
-    it_behaves_like "a signed out user" do
+    it_behaves_like "a security guard" do
       let(:action) { get :search, search_string: 'A' }
     end
 

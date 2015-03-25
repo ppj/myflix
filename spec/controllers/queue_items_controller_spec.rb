@@ -11,7 +11,7 @@ describe QueueItemsController do
       expect(assigns(:queue_items)).to match_array([queue_item1, queue_item2])
     end
 
-    it_behaves_like "a signed out user" do
+    it_behaves_like "a security guard" do
       let(:action) { get :index }
     end
   end
@@ -47,7 +47,7 @@ describe QueueItemsController do
       end
     end
 
-    it_behaves_like "a signed out user" do
+    it_behaves_like "a security guard" do
       let(:action) { post :create, video_id: video.id }
     end
   end
@@ -83,7 +83,7 @@ describe QueueItemsController do
       end
     end
 
-    it_behaves_like "a signed out user" do
+    it_behaves_like "a security guard" do
       let(:action) { delete :destroy, id: 2 }
     end
   end
@@ -170,7 +170,7 @@ describe QueueItemsController do
       end
     end
 
-    it_behaves_like "a signed out user" do
+    it_behaves_like "a security guard" do
       let(:action) { post :update_queue }
     end
   end

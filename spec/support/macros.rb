@@ -4,6 +4,6 @@ def sign_in_user
   user
 end
 
-def sign_out
+def sign_out_user
   session[:user_id] = nil
 end

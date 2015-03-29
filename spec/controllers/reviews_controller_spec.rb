@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ReviewsController do
-  let!(:current_user) { sign_in_user }
+  let!(:current_user) { set_current_user }
   let(:test_video) { Fabricate(:video) }
 
   describe "POST create" do

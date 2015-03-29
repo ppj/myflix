@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe SessionsController do
-  let!(:test_user) { sign_in_user }
+  let!(:test_user) { set_current_user }
 
   describe 'GET new' do
     it "when a user is already logged in, redirects to home-path" do

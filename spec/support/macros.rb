@@ -10,3 +10,12 @@ end
 def sign_out_user
   session[:user_id] = nil
 end
+
+def sign_in_user(user = nil)
+  user ||= Fabricate(:user)
+  visit root_path
+  click_on "Sign In"
+  fill_in "Email Address", with: user.email
+  fill_in "Password", with: user.password
+  click_button "Sign in"
+end

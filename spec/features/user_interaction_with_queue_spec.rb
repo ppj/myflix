@@ -34,9 +34,9 @@ feature "User Interaction With Queue" do
 end
 
 def add_video_to_queue(video)
-    visit home_path
-    find("a[href='/videos/#{video.id}']").click
-    click_link "+ My Queue"
+  visit home_path
+  find("a[href='/videos/#{video.id}']").click
+  click_link "+ My Queue"
 end
 
 def fill_in_video_position(video, position)
@@ -46,7 +46,7 @@ def fill_in_video_position(video, position)
 end
 
 def expect_video_position(video, position)
-    expect(find(:xpath, "//tr[contains(., '#{video.title}')]//input[@type='text']").value).to eq(position.to_s)
+  expect(find(:xpath, "//tr[contains(., '#{video.title}')]//input[@type='text']").value).to eq(position.to_s)
 end
 
 def expect_to_find(text)

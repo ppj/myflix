@@ -1,13 +1,11 @@
 require 'spec_helper'
 
 describe ReviewsController do
+  before { set_current_user }
   let(:test_video) { Fabricate(:video) }
 
   describe "POST create" do
     context "with authenticated user" do
-      let(:current_user) { Fabricate(:user) }
-      before { session[:user_id] = current_user.id }
-
       context "with valid review contents" do
         before do
           post :create, { video_id: test_video.id, review: Fabricate.attributes_for(:review) }
@@ -61,11 +59,8 @@ describe ReviewsController do
       end
     end
 
-    context "with unauthenticated user" do
-      it "redirects to home page" do
-        post :create, { video_id: test_video.id, review: Fabricate.attributes_for(:review) }
-        expect(response).to redirect_to(root_path)
-      end
+    it_behaves_like "a security guard" do
+      let(:action) { post :create, video_id: test_video.id, review: Fabricate.attributes_for(:review) }
     end
   end
 end

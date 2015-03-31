@@ -60,7 +60,7 @@ describe ReviewsController do
     end
 
     it_behaves_like "a security guard" do
-      let(:action) { post :create, { video_id: test_video.id, review: Fabricate.attributes_for(:review) } }
+      let(:action) { post :create, video_id: test_video.id, review: Fabricate.attributes_for(:review) }
     end
   end
 end

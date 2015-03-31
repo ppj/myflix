@@ -49,14 +49,6 @@ def expect_video_position(video, position)
   expect(find(:xpath, "//tr[contains(., '#{video.title}')]//input[@type='text']").value).to eq(position.to_s)
 end
 
-def expect_to_find(text)
-  expect(page).to have_content(text)
-end
-
-def expect_to_not_find(text)
-  expect(page).to have_no_content(text)
-end
-
 def update_queue
   click_on "Update Instant Queue"
 end

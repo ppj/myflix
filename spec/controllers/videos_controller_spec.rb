@@ -3,6 +3,19 @@ require 'spec_helper'
 describe VideosController do
   before { set_current_user }
 
+  describe "GET index" do
+    it_behaves_like "a security guard" do
+      let(:action) { get :index }
+    end
+
+    it "sets @categories to a list of all categories" do
+      cat1 = Fabricate(:category)
+      cat2 = Fabricate(:category)
+      get :index
+      expect(assigns(:categories)).to match_array([cat1, cat2])
+    end
+  end
+
   describe "GET show" do
     let(:test_video) { Fabricate(:video) }
 

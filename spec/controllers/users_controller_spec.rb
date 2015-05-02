@@ -39,4 +39,12 @@ describe UsersController do
       end
     end
   end
+
+  describe "GET show" do
+    it "identifies the user using the passed parameter" do
+      bob = Fabricate :user
+      get :show, id: bob.id
+      expect(assigns(:user)).to eq(bob)
+    end
+  end
 end

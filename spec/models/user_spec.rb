@@ -11,7 +11,7 @@ describe User do
 
   it { should validate_length_of(:fullname).is_at_least(2) }
 
-  it { should have_many(:reviews) }
+  it { should have_many(:reviews).order("created_at DESC") }
 
   it { should have_many(:queue_items).order(:position) }
 

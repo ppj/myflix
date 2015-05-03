@@ -6,6 +6,7 @@ feature "View User Profile" do
     monk = Fabricate :video
     queue_item = bob.queue_items.create(video: monk)
     review = bob.reviews.create(video: monk, rating: 3, body: "This is a sample review!")
+    sign_in_user bob
     visit user_path(bob)
     expect_to_find "#{bob.fullname}'s video collection (1)"
     expect_to_find monk.title

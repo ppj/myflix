@@ -41,10 +41,15 @@ describe UsersController do
   end
 
   describe "GET show" do
+    it_behaves_like "a security guard" do
+      let(:action) { get :show, id: 2 }
+    end
+
     it "identifies the user using the passed parameter" do
-      bob = Fabricate :user
-      get :show, id: bob.id
-      expect(assigns(:user)).to eq(bob)
+      set_current_user
+      jane = Fabricate :user
+      get :show, id: jane.id
+      expect(assigns(:user)).to eq(jane)
     end
   end
 end

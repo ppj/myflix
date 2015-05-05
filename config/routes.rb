@@ -23,4 +23,6 @@ Myflix::Application.routes.draw do
   post 'update_queue', to: 'queue_items#update_queue'
 
   get '/genre/:id', to: 'categories#show', as: 'category'
+
+  get 'people', to: 'followings#show', as: 'following'
 end

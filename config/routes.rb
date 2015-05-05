@@ -24,5 +24,6 @@ Myflix::Application.routes.draw do
 
   get '/genre/:id', to: 'categories#show', as: 'category'
 
-  get 'people', to: 'followings#show', as: 'following'
+  get 'people', to: 'followings#index'
+  resources :followings, only: [:destroy]
 end

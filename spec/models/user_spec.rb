@@ -12,6 +12,9 @@ describe User do
   it { should have_many(:followings).with_foreign_key(:follower_id) }
   it { should have_many(:followeds).through(:followings) }
 
+  it { should have_many(:inverse_followings).class_name("Following").with_foreign_key(:followed_id) }
+  it { should have_many(:followers).through(:inverse_followings) }
+
   describe "#queued?" do
     let(:user) { Fabricate(:user) }
     let(:video) { Fabricate(:video) }

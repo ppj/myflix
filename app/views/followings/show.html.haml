@@ -15,7 +15,7 @@
             %img(src="http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(followed.email.downcase)}?s=40")
             = link_to followed.fullname, followed
           %td.extra-padding= followed.queue_items.count
-          %td.extra-padding N/A YET
+          %td.extra-padding= followed.followers.count
           %td.extra-padding
             = link_to "", method: :post do
               %i.glyphicon.glyphicon-remove

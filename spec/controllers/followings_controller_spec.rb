@@ -44,4 +44,29 @@ describe FollowingsController do
       expect(Following.count).to eq(1)
     end
   end
+
+  describe "POST create" do
+    let(:bob) { Fabricate :user }
+    let(:jane) { Fabricate :user }
+    before { set_current_user bob }
+
+    it_behaves_like "a security guard" do
+      let(:action) { post :create }
+    end
+
+    it "redirects to people page" do
+      post :create, followed_id: jane.id
+      expect(response).to redirect_to people_path
+    end
+
+    it "sets current user as the follower of the indicated user" do
+      post :create, followed_id: jane.id
+      expect(Following.count).to eq(1)
+      expect(Following.first.follower).to eq(bob)
+      expect(Following.first.followed).to eq(jane)
+    end
+
+    it "does not set up a following if current user is already following the indicated user"
+    it "does not set up a following relationship if passed in user is the the same as current user"
+  end
 end

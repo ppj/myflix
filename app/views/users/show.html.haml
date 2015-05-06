@@ -5,10 +5,7 @@
         %header
           %img(src="http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(@user.email.downcase)}?s=40")
           %h2 #{@user.fullname}'s video collection (#{@user.queue_items.count})
-          - if current_user.followeds.include? @user
-            = link_to "Unfollow", current_user.followings.find_by(followed: @user), method: :delete, class: "btn btn-default"
-          -else
-            = link_to "Follow", followings_path(followed_id: @user), method: :post, class: "btn btn-default"
+          = link_to "Follow", followings_path(followed_id: @user), method: :post, class: "btn btn-default" if current_user.can_follow?(@user)
         %table.table
           %thead
             %tr

@@ -28,4 +28,36 @@ describe User do
       expect(user.queued? video).to be true
     end
   end
+
+  describe "#follows?" do
+    let(:bob) { Fabricate :user }
+    let(:nat) { Fabricate :user }
+
+    it "returns true if this user is following another user" do
+      Fabricate :following, follower: bob, followed: nat
+      expect(bob.follows?(nat)).to be_true
+    end
+
+    it "returns false if this user is not following another user" do
+      expect(bob.follows?(nat)).to be_falsey
+    end
+  end
+
+  describe "#can_follow?" do
+    let(:bob) { Fabricate :user }
+    let(:nat) { Fabricate :user }
+
+    it "returns true if this user can follow another user" do
+      expect(bob.can_follow?(nat)).to be_true
+    end
+
+    it "returns false if this user is already following the other user" do
+      Fabricate :following, follower: bob, followed: nat
+      expect(bob.can_follow?(nat)).to be_falsey
+    end
+
+    it "returns false if this user is the same as the other user" do
+      expect(bob.can_follow?(bob)).to be_falsey
+    end
+  end
 end

@@ -7,7 +7,16 @@ class FollowingsController < ApplicationController
 
   def create
     followed = User.find(params[:followed_id])
-    Following.create(follower: current_user, followed: followed)
+    following = Following.new(follower: current_user, followed: followed)
+    if following.save
+      flash[:success] = "You have started following #{followed.fullname}."
+    else
+      if followed == current_user
+        flash[:danger] = "You cannot follow yourself."
+      else
+        flash[:danger] = "You are already following #{followed.fullname}."
+      end
+    end
     redirect_to people_path
   end
 

@@ -59,14 +59,37 @@ describe FollowingsController do
       expect(response).to redirect_to people_path
     end
 
-    it "sets current user as the follower of the indicated user" do
-      post :create, followed_id: jane.id
-      expect(Following.count).to eq(1)
-      expect(Following.first.follower).to eq(bob)
-      expect(Following.first.followed).to eq(jane)
+    context "with valid inputs" do
+      it "sets current user as the follower of the indicated user" do
+        post :create, followed_id: jane.id
+        expect(Following.count).to eq(1)
+        expect(Following.first.follower).to eq(bob)
+        expect(Following.first.followed).to eq(jane)
+      end
+
+      it "displays success message" do
+        post :create, followed_id: jane.id
+        expect(flash[:success]).to be_present
+      end
     end
 
-    it "does not set up a following if current user is already following the indicated user"
-    it "does not set up a following relationship if passed in user is the the same as current user"
+    context "with invalid inputs" do
+      it "does not set up a following if current user is already following the indicated user and displays an error" do
+        Following.create(follower: bob, followed: jane)
+        post :create, followed_id: jane.id
+        expect(Following.count).to eq(1)
+      end
+
+      it "does not set up a following relationship if passed in user is the the same as current user" do
+        post :create, followed_id: bob.id
+        expect(Following.count).to eq(0)
+      end
+
+      it "displays an error message" do
+        Following.create(follower: bob, followed: jane)
+        post :create, followed_id: jane.id
+        expect(flash[:danger]).to be_present
+      end
+    end
   end
 end

@@ -42,6 +42,12 @@ describe FollowingsController do
       following2 = Fabricate :following, follower: jane, followed: bob
       delete :destroy, id: following2
       expect(Following.count).to eq(1)
+      expect(flash[:danger]).to be_present
+    end
+
+    it "displays a message saying following deleted" do
+      delete :destroy, id: following
+      expect(flash[:info]).to be_present
     end
   end
 

@@ -22,7 +22,12 @@ class FollowingsController < ApplicationController
 
   def destroy
     following = Following.find(params[:id])
-    following.destroy if following.follower == current_user
+    if following.follower == current_user
+      flash[:info] = "You are no longer following #{following.followed.fullname}"
+      following.destroy
+    else
+      flash[:danger] = "Only followers can stop following their followed users"
+    end
     redirect_to people_path
   end
 end

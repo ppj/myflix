@@ -1,14 +1,13 @@
 require 'spec_helper'
 
 describe VideosController do
-  before { set_current_user }
-
   describe "GET index" do
     it_behaves_like "a security guard" do
       let(:action) { get :index }
     end
 
     it "sets @categories to a list of all categories" do
+      set_current_user
       cat1 = Fabricate(:category)
       cat2 = Fabricate(:category)
       get :index
@@ -24,11 +23,13 @@ describe VideosController do
     end
 
     it "sets @video for an authenticated user" do
+      set_current_user
       get :show, id: test_video.id
       expect(assigns(:video)).to eq(test_video)
     end
 
     it "sets @review to a new review for an authenticated user" do
+      set_current_user
       get :show, id: test_video.id
       expect(assigns(:review)).to be_a_new(Review)
     end
@@ -40,6 +41,7 @@ describe VideosController do
     end
 
     it "finds a Video based on given name" do
+      set_current_user
       test_video = Fabricate(:video, title: 'The Big Bang Theory')
       get :search, search_string: 'heor'
       expect(assigns(:videos)).to eq([test_video])

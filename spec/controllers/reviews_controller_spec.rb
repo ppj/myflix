@@ -1,13 +1,12 @@
 require 'spec_helper'
 
 describe ReviewsController do
-  before { set_current_user }
-  let(:test_video) { Fabricate(:video) }
-
   describe "POST create" do
     context "with authenticated user" do
       context "with valid review contents" do
+        let(:test_video) { Fabricate :video }
         before do
+          set_current_user
           post :create, { video_id: test_video.id, review: Fabricate.attributes_for(:review) }
         end
 
@@ -37,7 +36,9 @@ describe ReviewsController do
       end
 
       context "with invalid review contents" do
+        let(:test_video) { Fabricate :video }
         before do
+          set_current_user
           post :create, { video_id: test_video.id, review: {body: '2short', rating: 0} }
         end
 
@@ -60,7 +61,7 @@ describe ReviewsController do
     end
 
     it_behaves_like "a security guard" do
-      let(:action) { post :create, video_id: test_video.id, review: Fabricate.attributes_for(:review) }
+      let(:action) { post :create, video_id: 2, review: Fabricate.attributes_for(:review) }
     end
   end
 end

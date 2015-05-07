@@ -35,7 +35,7 @@ describe User do
 
     it "returns true if this user is following another user" do
       Fabricate :following, follower: bob, followed: nat
-      expect(bob.follows?(nat)).to be_true
+      expect(bob.follows?(nat)).to be true
     end
 
     it "returns false if this user is not following another user" do
@@ -48,7 +48,7 @@ describe User do
     let(:nat) { Fabricate :user }
 
     it "returns true if this user can follow another user" do
-      expect(bob.can_follow?(nat)).to be_true
+      expect(bob.can_follow?(nat)).to be true
     end
 
     it "returns false if this user is already following the other user" do

@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   end
 
   def queued?(video)
-    queue_items.map(&:video).include? video
+    queue_items.pluck(:video_id).include? video.id
   end
 
   def follows?(another_user)

@@ -20,11 +20,13 @@ def sign_in_user(user = nil)
   click_button "Sign in"
 end
 
-def expect_to_find(text)
-  expect(page).to have_content(text)
+def expect_to_find(target, search_type="content")
+  search_method = "have_" + search_type
+  expect(page).to send(search_method, target)
 end
 
-def expect_to_not_find(text)
-  expect(page).to have_no_content(text)
+def expect_to_not_find(target, search_type="content")
+  search_method = "have_no_" + search_type
+  expect(page).to send(search_method, target)
 end
 

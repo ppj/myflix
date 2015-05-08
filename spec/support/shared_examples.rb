@@ -1,4 +1,4 @@
-shared_examples "a security guard" do
+shared_examples "a gatekeeper redirecting an unauthenticated user" do
   it "redirects to the root page"  do
     sign_out_user
     action

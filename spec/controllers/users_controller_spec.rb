@@ -39,4 +39,17 @@ describe UsersController do
       end
     end
   end
+
+  describe "GET show" do
+    it_behaves_like "a gatekeeper redirecting an unauthenticated user" do
+      let(:action) { get :show, id: 2 }
+    end
+
+    it "identifies the user using the passed parameter" do
+      set_current_user
+      jane = Fabricate :user
+      get :show, id: jane.id
+      expect(assigns(:user)).to eq(jane)
+    end
+  end
 end

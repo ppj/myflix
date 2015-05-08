@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 feature "User Interaction With Queue" do
-
   scenario "user adds videos to queue and reorders them" do
     bob = Fabricate(:user)
     category = Fabricate(:category)

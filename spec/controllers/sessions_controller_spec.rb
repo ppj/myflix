@@ -20,11 +20,11 @@ describe SessionsController do
         expect(session[:user_id]).to eq(new_user.id)
       end
 
-      it "then redirects to root-path" do
+      it "redirects to root-path" do
         expect(response).to redirect_to(root_path)
       end
 
-      it "also notifies the user of a successful login" do
+      it "notifies the user of a successful login" do
         expect(flash[:success]).to be_present
       end
     end

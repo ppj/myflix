@@ -14,10 +14,14 @@ south_park = Video.create(title: "South Park", description: "Cartoon TV Series w
 family_guy = Video.create(title: "Family Guy", description: "Comedy Cartoon TV Series for mature audience", small_cover_url: "/tmp/family_guy.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
 futurama = Video.create(title: "Futurama", description: "Comedy Cartoon TV Series about space travel", small_cover_url: "/tmp/futurama.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
 
-user = User.create(email: 'user@sample.com', password: 'pwd', fullname: 'Sample User')
-user.queue_items.create(video: monk, position: 1)
-user.queue_items.create(video: family_guy, position: 2)
+bob = User.create(email: 'bob@sample.com', password: 'pwd', fullname: 'Bob Sample')
+bob.queue_items.create(video: monk, position: 1)
+bob.queue_items.create(video: family_guy, position: 2)
 
 Review.create(body: "This is simply awesome! Must watch!", rating: 5, creator: User.first, video: family_guy)
 Review.create(body: "This is a load of nonsense. Skip it.", rating: 1, creator: User.first, video: south_park)
+
+jane = User.create(email: 'jane@sample.com', password: 'pwd', fullname: 'Jane Sample')
+
+bob.followeds << jane
 

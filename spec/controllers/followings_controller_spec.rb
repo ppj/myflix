@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe FollowingsController do
   describe "GET index" do
-    it_behaves_like "a security guard" do
+    it_behaves_like "a gatekeeper redirecting an unauthenticated user" do
       let(:action) { get :index }
     end
 
@@ -19,7 +19,7 @@ describe FollowingsController do
   end
 
   describe "DELETE destroy" do
-    it_behaves_like "a security guard" do
+    it_behaves_like "a gatekeeper redirecting an unauthenticated user" do
       let(:action) { delete :destroy, id: 3 }
     end
 
@@ -62,7 +62,7 @@ describe FollowingsController do
   end
 
   describe "POST create" do
-    it_behaves_like "a security guard" do
+    it_behaves_like "a gatekeeper redirecting an unauthenticated user" do
       let(:action) { post :create }
     end
 

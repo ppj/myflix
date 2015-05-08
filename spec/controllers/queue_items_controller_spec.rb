@@ -11,7 +11,7 @@ describe QueueItemsController do
       expect(assigns(:queue_items)).to match_array([queue_item1, queue_item2])
     end
 
-    it_behaves_like "a security guard" do
+    it_behaves_like "a gatekeeper redirecting an unauthenticated user" do
       let(:action) { get :index }
     end
   end
@@ -52,7 +52,7 @@ describe QueueItemsController do
       end
     end
 
-    it_behaves_like "a security guard" do
+    it_behaves_like "a gatekeeper redirecting an unauthenticated user" do
       let(:action) { post :create, video_id: 3 }
     end
   end
@@ -92,7 +92,7 @@ describe QueueItemsController do
       end
     end
 
-    it_behaves_like "a security guard" do
+    it_behaves_like "a gatekeeper redirecting an unauthenticated user" do
       let(:action) { delete :destroy, id: 2 }
     end
   end
@@ -196,7 +196,7 @@ describe QueueItemsController do
       end
     end
 
-    it_behaves_like "a security guard" do
+    it_behaves_like "a gatekeeper redirecting an unauthenticated user" do
       let(:action) { post :update_queue }
     end
   end

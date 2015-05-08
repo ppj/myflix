@@ -41,7 +41,7 @@ describe UsersController do
   end
 
   describe "GET show" do
-    it_behaves_like "a security guard" do
+    it_behaves_like "a gatekeeper redirecting an unauthenticated user" do
       let(:action) { get :show, id: 2 }
     end
 

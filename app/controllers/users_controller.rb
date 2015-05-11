@@ -9,6 +9,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:success] = "You have successfully registered. You can sign in now!"
+      AppMailer.welcome_email(@user).deliver
       redirect_to sign_in_path
     else
       flash[:danger] = "Please fix the highlighted errors before continuing..."

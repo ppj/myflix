@@ -1,8 +1,12 @@
 !!! 5
 %html(lang="en-US")
   %body
-    %p Welcome to MyFlix
+    %p Hi #{@user.fullname},
     %p
-      Your username is the same as your email address:
+      Welcome to MyFlix!
+    %p
+      Please login using your email address:
       = @user.email
+    %p Cheers,
+    %p MyFlix Team
 

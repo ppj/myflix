@@ -19,25 +19,6 @@ describe UsersController do
       it "then redirects to the sign-in page" do
         expect(response).to redirect_to(sign_in_path)
       end
-
-      context "welcome email" do
-        it "sends out the email" do
-          expect(ActionMailer::Base.deliveries).to_not be_empty
-        end
-
-        it "sends the email to new user" do
-          email_message = ActionMailer::Base.deliveries.last
-          user = assigns(:user)
-          expect(email_message.to).to eq([user.email])
-        end
-
-        it "has the welcome message" do
-          email_message = ActionMailer::Base.deliveries.last
-          user = assigns(:user)
-          expect(email_message.body).to include(user.fullname)
-          expect(email_message.body).to include(user.email)
-        end
-      end
     end
 
     context "with invalid credentials" do
@@ -55,6 +36,31 @@ describe UsersController do
 
       it "re-renders the registration form" do
         expect(response).to render_template(:new)
+      end
+    end
+
+    context "welcome email" do
+      after { ActionMailer::Base.deliveries.clear }
+
+      it "sends out the email to new user when credentials are valid" do
+        post :create, user: Fabricate.attributes_for(:user)
+        expect(ActionMailer::Base.deliveries).to_not be_empty
+      end
+
+      it "sends the email to new user when credentials are valid" do
+        post :create, user: Fabricate.attributes_for(:user, email: "joe@doe.com")
+        email_message = ActionMailer::Base.deliveries.last
+        expect(ActionMailer::Base.deliveries.last.to).to eq(["joe@doe.com"])
+      end
+
+      it "has the welcome message when credentials are valid" do
+        post :create, user: Fabricate.attributes_for(:user, fullname: "Joe Doe")
+        expect(ActionMailer::Base.deliveries.last.body).to include("Joe Doe")
+      end
+
+      it "does not send out the welcome email when credentials are not valid" do
+        post :create, user: {fullname: 'P', password: 'pwd', email: 'a@b.com'}
+        expect(ActionMailer::Base.deliveries).to be_empty
       end
     end
   end

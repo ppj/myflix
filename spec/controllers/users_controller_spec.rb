@@ -19,6 +19,25 @@ describe UsersController do
       it "then redirects to the sign-in page" do
         expect(response).to redirect_to(sign_in_path)
       end
+
+      context "welcome email" do
+        it "sends out the email" do
+          expect(ActionMailer::Base.deliveries).to_not be_empty
+        end
+
+        it "sends the email to new user" do
+          email_message = ActionMailer::Base.deliveries.last
+          user = assigns(:user)
+          expect(email_message.to).to eq([user.email])
+        end
+
+        it "has the welcome message" do
+          email_message = ActionMailer::Base.deliveries.last
+          user = assigns(:user)
+          expect(email_message.body).to include(user.fullname)
+          expect(email_message.body).to include(user.email)
+        end
+      end
     end
 
     context "with invalid credentials" do

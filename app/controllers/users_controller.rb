@@ -24,6 +24,13 @@ class UsersController < ApplicationController
   def forgot_password
   end
 
+  def password_reset
+    redirect_to confirm_password_reset_path
+  end
+
+  def confirm_password_reset
+  end
+
   private
 
   def user_params

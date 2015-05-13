@@ -77,21 +77,4 @@ describe UsersController do
       expect(assigns(:user)).to eq(jane)
     end
   end
-
-  describe "POST password_reset" do
-    context "with valid email address" do
-      it "sends an email with a link to reset that user's password"
-
-      it "redirects to password-reset confirmation page" do
-        bob = Fabricate :user
-        post :password_reset, email: bob.email
-        expect(response).to redirect_to(confirm_password_reset_path)
-      end
-    end
-
-    context "with invalid email address" do
-      it "does not send an email"
-      it "re-renders the forgot-password form"
-    end
-  end
 end

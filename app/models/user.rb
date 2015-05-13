@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   validates :email, length: {minimum: 5}, uniqueness: true
   validates :fullname, length: {minimum: 2}
 
+  before_create :generate_token
+
   def normalize_queue_item_positions
     queue_items.each_with_index do |queue_item, index|
       queue_item.update_attributes(position: index+1)
@@ -29,5 +31,11 @@ class User < ActiveRecord::Base
 
   def can_follow?(another_user)
     !(follows?(another_user) || self == another_user)
+  end
+
+  private
+
+  def generate_token
+    self.token = SecureRandom.urlsafe_base64
   end
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ResetPasswordsController do
+describe ForgotPasswordsController do
   describe "POST create" do
     context "with valid email address" do
       it "sends an email with a link to reset that user's password" do
@@ -21,7 +21,7 @@ describe ResetPasswordsController do
     context "with invalid email address" do
       it "redirects to the forgot-password form" do
         post :create, email: 'invalid@email.com'
-        expect(response).to redirect_to(reset_password_path)
+        expect(response).to redirect_to(forgot_password_path)
       end
 
       it "shows an error message about the email address" do

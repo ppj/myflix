@@ -16,7 +16,7 @@ describe UsersController do
         expect(User.count).to eq(1)
       end
 
-      it "then redirects to the sign-in page" do
+      it "redirects to the sign-in page" do
         expect(response).to redirect_to(sign_in_path)
       end
     end

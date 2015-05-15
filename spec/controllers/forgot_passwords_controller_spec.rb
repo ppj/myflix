@@ -19,10 +19,10 @@ describe ForgotPasswordsController do
         ActionMailer::Base.deliveries.clear
       end
 
-      it "renders password-reset confirmation page" do
+      it "redirects to the password-reset confirmation page" do
         bob = Fabricate :user, email: "bob@bob.com"
         post :create, email: "bob@bob.com"
-        expect(response).to render_template(:confirm)
+        expect(response).to redirect_to(confirm_password_reset_path)
       end
     end
 

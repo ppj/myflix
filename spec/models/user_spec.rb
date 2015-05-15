@@ -20,7 +20,7 @@ describe User do
       bob = Fabricate :user
       expect(bob.token).to be_nil
       bob.generate_token
-      expect(bob.token).to be_present
+      expect(bob.reload.token).to be_present
     end
   end
 

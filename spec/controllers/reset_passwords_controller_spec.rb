@@ -28,11 +28,11 @@ describe ResetPasswordsController do
       expect(bob.reload.authenticate("new_pwd")).to be_truthy
     end
 
-    it "resets the user's token" do
+    it "deletes the user's token" do
       bob = Fabricate :user
       bob.update_column(:token, "abcdef")
       post :create, token: "abcdef", password: "new_pwd"
-      expect(bob.reload.token).to_not eq("abcdef")
+      expect(bob.reload.token).to be_nil
     end
 
     it "displays a flash message that the password has been changed" do

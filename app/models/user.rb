@@ -32,6 +32,6 @@ class User < ActiveRecord::Base
   end
 
   def generate_token
-    self.token = SecureRandom.urlsafe_base64
+    update_column :token, SecureRandom.urlsafe_base64
   end
 end

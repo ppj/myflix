@@ -3,6 +3,13 @@ require 'spec_helper'
 describe ForgotPasswordsController do
   describe "POST create" do
     context "with valid email address" do
+      it "generates a token for the user" do
+        bob = Fabricate :user, email: "bob@bob.com"
+        expect(bob.token).to be_nil
+        post :create, email: "bob@bob.com"
+        expect(bob.reload.token).to be_present
+      end
+
       it "sends an email with a link to reset that user's password" do
         bob = Fabricate :user, email: "bob@bob.com"
         post :create, email: "bob@bob.com"

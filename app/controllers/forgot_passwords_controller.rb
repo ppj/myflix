@@ -2,6 +2,7 @@ class ForgotPasswordsController < ApplicationController
   def create
     user = User.find_by_email(params[:email])
     if user
+      user.generate_token
       AppMailer.password_reset_link(user).deliver
       render :confirm
     else

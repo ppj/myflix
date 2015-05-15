@@ -7,7 +7,7 @@ describe ForgotPasswordsController do
 
       it "generates a token for the user" do
         bob = Fabricate :user, email: "bob@bob.com"
-        expect(bob.token).to be_nil
+        bob.update_column(:token, nil)
         post :create, email: "bob@bob.com"
         expect(bob.reload.token).to be_present
       end

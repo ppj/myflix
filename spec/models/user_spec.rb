@@ -15,9 +15,13 @@ describe User do
   it { should have_many(:inverse_followings).class_name("Following").with_foreign_key(:followed_id) }
   it { should have_many(:followers).through(:inverse_followings) }
 
-  it "generates token before creating a new user" do
-    bob = Fabricate :user
-    expect(bob.token).to be_present
+  describe "#generate_token" do
+    it "generates a new token for a user" do
+      bob = Fabricate :user
+      expect(bob.token).to be_nil
+      bob.generate_token
+      expect(bob.token).to be_present
+    end
   end
 
   describe "#queued?" do

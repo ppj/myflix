@@ -50,7 +50,7 @@ describe UsersController do
       it "sends the email to new user when credentials are valid" do
         post :create, user: Fabricate.attributes_for(:user, email: "joe@doe.com")
         email_message = ActionMailer::Base.deliveries.last
-        expect(ActionMailer::Base.deliveries.last.to).to eq(["joe@doe.com"])
+        expect(email_message.to).to eq(["joe@doe.com"])
       end
 
       it "has the welcome message when credentials are valid" do

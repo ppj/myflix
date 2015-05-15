@@ -12,7 +12,7 @@ class UsersController < ApplicationController
       AppMailer.welcome_email(@user).deliver
       redirect_to sign_in_path
     else
-      flash[:danger] = "Please fix the highlighted errors before continuing..."
+      flash.now[:danger] = "Please fix the highlighted errors before continuing..."
       render :new
     end
   end

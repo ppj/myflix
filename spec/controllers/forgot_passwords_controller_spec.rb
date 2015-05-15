@@ -4,17 +4,17 @@ describe ForgotPasswordsController do
   describe "POST create" do
     context "with valid email address" do
       it "sends an email with a link to reset that user's password" do
-        bob = Fabricate :user
-        post :create, email: bob.email
+        bob = Fabricate :user, email: "bob@bob.com"
+        post :create, email: "bob@bob.com"
         email_message = ActionMailer::Base.deliveries.last
         expect(email_message).to be_present
-        expect(email_message.to).to eq([bob.email])
+        expect(email_message.to).to eq(["bob@bob.com"])
         ActionMailer::Base.deliveries.clear
       end
 
       it "renders password-reset confirmation page" do
-        bob = Fabricate :user
-        post :create, email: bob.email
+        bob = Fabricate :user, email: "bob@bob.com"
+        post :create, email: "bob@bob.com"
         expect(response).to render_template(:confirm)
       end
     end

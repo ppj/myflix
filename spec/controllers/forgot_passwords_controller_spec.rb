@@ -3,6 +3,8 @@ require 'spec_helper'
 describe ForgotPasswordsController do
   describe "POST create" do
     context "with valid email address" do
+      after { ActionMailer::Base.deliveries.clear }
+
       it "generates a token for the user" do
         bob = Fabricate :user, email: "bob@bob.com"
         expect(bob.token).to be_nil
@@ -16,7 +18,6 @@ describe ForgotPasswordsController do
         email_message = ActionMailer::Base.deliveries.last
         expect(email_message).to be_present
         expect(email_message.to).to eq(["bob@bob.com"])
-        ActionMailer::Base.deliveries.clear
       end
 
       it "redirects to the password-reset confirmation page" do
@@ -38,7 +39,6 @@ describe ForgotPasswordsController do
       end
 
       it "does not send an email" do
-        ActionMailer::Base.deliveries.clear
         post :create, email: 'what@ever.com'
         expect(ActionMailer::Base.deliveries).to be_empty
       end

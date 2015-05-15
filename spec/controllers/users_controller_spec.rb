@@ -12,6 +12,8 @@ describe UsersController do
     context "with valid credentials" do
       before { post :create, user: Fabricate.attributes_for(:user) }
 
+      after { ActionMailer::Base.deliveries.clear }
+
       it "creates new user" do
         expect(User.count).to eq(1)
       end

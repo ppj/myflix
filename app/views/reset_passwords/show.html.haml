@@ -1,10 +1,10 @@
 %section.reset_password.container
   .row
     .col-sm-10.col-sm-offset-1
-      = form_tag update_password_path, class: 'sign_in' do
+      = form_tag reset_passwords_path, class: 'sign_in' do
         %header
           %h1 Reset Your Password
-        = text_field_tag :token, @user.token, type: 'hidden', class: 'form-control'
+        = hidden_field_tag :token, @user.token
         %fieldset.form-group
           %label New Password
           .row

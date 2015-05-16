@@ -18,6 +18,12 @@ Myflix::Application.routes.draw do
   resources :users, only: [:create, :show]
   get 'register', to: 'users#new'
 
+  get 'forgot_password', to: 'forgot_passwords#new'
+  resources :forgot_passwords, only: [:create]
+  get 'confirm_password_reset', to: 'forgot_passwords#confirm'
+
+  resources :reset_passwords, only: [:show, :create]
+
   resources :queue_items, only: [:create, :destroy]
   get  'my_queue', to: 'queue_items#index'
   post 'update_queue', to: 'queue_items#update_queue'

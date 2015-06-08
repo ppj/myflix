@@ -6,7 +6,7 @@
           %h1 Reset Your Password
         = hidden_field_tag :token, @user.token
         %fieldset.form-group
-          %label New Password
+          =label_tag :password, "New Password"
           .row
             .col-sm-4
               = password_field_tag :password, nil, class: 'form-control'

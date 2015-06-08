@@ -33,5 +33,6 @@ Myflix::Application.routes.draw do
   get 'people', to: 'followings#index'
   resources :followings, only: [:create, :destroy]
 
-  get '/invite', to: 'invitations#show', as: 'invite'
+  get '/invite', to: 'invitations#new', as: 'invite'
+  resources :invitations, only: [:create]
 end

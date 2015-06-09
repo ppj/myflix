@@ -6,7 +6,7 @@ feature "friend invitation" do
     sign_in_user jane
     visit invite_path
 
-    fill_in "Friend's Name", with: "Joe"
+    fill_in "Friend's Name", with: "Joe Doe"
     fill_in "Friend's Email Address", with: "joe@example.com"
     click_on "Send Invitation"
 
@@ -14,9 +14,12 @@ feature "friend invitation" do
     current_email.click_link "Click here to join MyFlix."
 
     fill_in "Password", with: "friend_password"
-    fill_in "Full Name", with: "Joe Doe"
     click_on "Sign Up"
-    expect_to_find "Hi Joe Doe"
+
+    fill_in "Email Address", with: "joe@example.com"
+    fill_in "Password", with: "friend_password"
+    click_on "Sign in"
+    expect_to_find "Welcome, Joe Doe"
 
     click_on "People"
     expect_to_find jane.fullname

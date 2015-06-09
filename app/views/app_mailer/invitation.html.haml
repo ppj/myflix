@@ -4,7 +4,7 @@
     %p Hi #{@name},
     %p
       = @message
-      = link_to "Click here to join MyFlix.", register_url
+      = link_to "Click here to join MyFlix.", register_url(name: @name, email: @email)
     %p Cheers,
     %p MyFlix Team
 

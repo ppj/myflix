@@ -5,9 +5,9 @@
         %header
           %h1 Register
         %fieldset
-          = f.email_field    :email, label: 'Email Address'
+          = f.email_field    :email, label: 'Email Address', value: params[:email]
           = f.password_field :password
-          = f.text_field     :fullname, label: 'Full Name'
+          = f.text_field     :fullname, label: 'Full Name', value: params[:name]
         %fieldset.actions.control-group.col-sm-offset-2
           .controls
             = f.submit "Sign Up"

@@ -11,7 +11,7 @@ feature "friend invitation" do
     click_on "Send Invitation"
 
     open_email "joe@example.com"
-    current_email.click_link "join MyFlix"
+    current_email.click_link "Click here to join MyFlix."
 
     fill_in "Password", with: "friend_password"
     fill_in "Full Name", with: "Joe Doe"

@@ -55,6 +55,12 @@ describe InvitationsController do
         expect(response).to render_template :new
       end
 
+      it "assigns invitation to the erroneous record" do
+        set_current_user
+        post :create, invitation: {invitee_email: "john@example.com", message: "Check it out!"}
+        expect(assigns(:invitation)).to be_a_new(Invitation)
+      end
+
       it "does not create an invitation" do
         set_current_user
         post :create, invitation: {invitee_email: "john@example.com", message: "Check it out!"}

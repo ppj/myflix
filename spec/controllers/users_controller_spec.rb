@@ -26,7 +26,7 @@ describe UsersController do
 
     it "shows the expired token page if invitation not found" do
       get :new_invited, token: "notAValidToken"
-      expect(response).to redirect_to expired_token_path
+      expect(response).to redirect_to invalid_token_path
     end
   end
 

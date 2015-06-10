@@ -38,6 +38,22 @@ describe UsersController do
       end
     end
 
+    context "with invitation" do
+      it "sets the invited user to follow the inviter" do
+        invitation = Fabricate :invitation, invitee_email: 'joe@doe.com'
+        post :create, invitation_token: invitation.token, user: { fullname: invitation.invitee_name, email: invitation.invitee_email, password: "newPwd" }
+        invitee = User.find_by(email: "joe@doe.com")
+        expect(invitation.inviter.follows?(invitee)).to be true
+      end
+
+      it "sets the inviter to follow the invited user" do
+        invitation = Fabricate :invitation, invitee_email: 'joe@doe.com'
+        post :create, invitation_token: invitation.token, user: { fullname: invitation.invitee_name, email: invitation.invitee_email, password: "newPwd" }
+        invitee = User.find_by(email: "joe@doe.com")
+        expect(invitee.follows?(invitation.inviter)).to be true
+      end
+    end
+
     context "with invalid credentials" do
       before do
         post :create, user: {fullname: 'P', password: 'pwd', email: 'a@b.com'}

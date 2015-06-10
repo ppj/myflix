@@ -34,4 +34,8 @@ class User < ActiveRecord::Base
   def generate_token
     update_column :token, SecureRandom.urlsafe_base64
   end
+
+  def follow(another_user)
+    followings.create(followed: another_user)
+  end
 end

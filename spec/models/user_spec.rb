@@ -69,4 +69,25 @@ describe User do
       expect(bob.can_follow?(bob)).to be_falsey
     end
   end
+
+  describe "#follow" do
+    let(:bob) { Fabricate :user }
+    let(:liz) { Fabricate :user }
+
+    it "sets one user to follow another user" do
+      bob.follow(liz)
+      expect(bob.follows?(liz)).to be true
+    end
+
+    it "does not set a following if already following" do
+      Following.create(follower: bob, followed: liz)
+      bob.follow(liz)
+      expect(Following.where(follower: bob, followed: liz).count).to eq(1)
+    end
+
+    it "does not set a following relationship with self" do
+      bob.follow(bob)
+      expect(bob.follows?(bob)).to be false
+    end
+  end
 end

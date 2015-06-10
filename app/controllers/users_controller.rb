@@ -14,6 +14,11 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      if params[:invitation_token]
+        invitation = Invitation.find_by(token: params[:invitation_token])
+        invitation.inviter.follow(@user)
+        @user.follow(invitation.inviter)
+      end
       flash[:success] = "You have successfully registered. You can sign in now!"
       AppMailer.welcome_email(@user).deliver
       redirect_to sign_in_path

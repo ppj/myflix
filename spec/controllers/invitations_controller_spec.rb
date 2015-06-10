@@ -14,13 +14,13 @@ describe InvitationsController do
   end
 
   describe "POST create" do
-    after { ActionMailer::Base.deliveries.clear }
-
     it_behaves_like "a gatekeeper redirecting an unauthenticated user" do
       let(:action) { post :create }
     end
 
     context "with valid inputs" do
+      after { ActionMailer::Base.deliveries.clear }
+
       it "redirects to the new invitation page" do
         set_current_user
         post :create, invitation: {invitee_name: "John Doe", invitee_email: "john@example.com", message: "Check it out!"}
@@ -61,7 +61,7 @@ describe InvitationsController do
         expect(response).to render_template :new
       end
 
-      it "assigns invitation to the erroneous record" do
+      it "sets @invitation" do
         set_current_user
         post :create, invitation: {invitee_email: "john@example.com", message: "Check it out!"}
         expect(assigns(:invitation)).to be_a_new(Invitation)

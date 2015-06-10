@@ -11,7 +11,7 @@ class UsersController < ApplicationController
       @user = User.new(fullname: invitation.invitee_name, email: invitation.invitee_email)
       render :new
     else
-      render "pages/invalid_token" unless invitation
+      redirect_to expired_token_path
     end
   end
 

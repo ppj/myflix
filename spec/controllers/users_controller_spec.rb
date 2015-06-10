@@ -26,7 +26,7 @@ describe UsersController do
 
     it "shows the expired token page if invitation not found" do
       get :new_invited, token: "notAValidToken"
-      expect(response).to render_template "pages/invalid_token"
+      expect(response).to redirect_to expired_token_path
     end
   end
 
@@ -46,21 +46,21 @@ describe UsersController do
 
       context "with invitation" do
         it "sets the invited user to follow the inviter" do
-          invitation = Fabricate :invitation, invitee_email: 'joe@doe.com'
+          invitation = Fabricate :invitation, invitee_email: 'joe@doe.com', inviter: Fabricate(:user)
           post :create, invitation_token: invitation.token, user: { fullname: invitation.invitee_name, email: invitation.invitee_email, password: "newPwd" }
           invitee = User.find_by(email: "joe@doe.com")
           expect(invitation.inviter.follows?(invitee)).to be true
         end
 
         it "sets the inviter to follow the invited user" do
-          invitation = Fabricate :invitation, invitee_email: 'joe@doe.com'
+          invitation = Fabricate :invitation, invitee_email: 'joe@doe.com', inviter: Fabricate(:user)
           post :create, invitation_token: invitation.token, user: { fullname: invitation.invitee_name, email: invitation.invitee_email, password: "newPwd" }
           invitee = User.find_by(email: "joe@doe.com")
           expect(invitee.follows?(invitation.inviter)).to be true
         end
 
         it "deletes the invitation token" do
-          invitation = Fabricate :invitation, invitee_email: 'joe@doe.com'
+          invitation = Fabricate :invitation, invitee_email: 'joe@doe.com', inviter: Fabricate(:user)
           post :create, invitation_token: invitation.token, user: { fullname: invitation.invitee_name, email: invitation.invitee_email, password: "newPwd" }
           invitee = User.find_by(email: "joe@doe.com")
           expect(invitation.reload.token).to be_nil

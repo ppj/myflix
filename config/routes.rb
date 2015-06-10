@@ -24,6 +24,7 @@ Myflix::Application.routes.draw do
   get 'confirm_password_reset', to: 'forgot_passwords#confirm'
 
   resources :reset_passwords, only: [:show, :create]
+  get 'expired_token', to: 'pages#expired_token'
 
   resources :queue_items, only: [:create, :destroy]
   get  'my_queue', to: 'queue_items#index'

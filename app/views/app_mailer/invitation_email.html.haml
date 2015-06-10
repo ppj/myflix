@@ -4,7 +4,7 @@
     %p Hi #{@invitation.invitee_name},
     %p You have been invited to join MyFlix by #{@invitation.inviter.fullname}.
     %p= @invitation.message
-    %p= link_to "Click here to accept the invitation.", register_url(name: @name, email: @email)
+    %p= link_to "Click here to accept the invitation.", register_invited_url(@invitation.token)
     %p Cheers,
     %p MyFlix Team
 

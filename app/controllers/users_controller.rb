@@ -5,6 +5,12 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def new_invited
+    invitation = Invitation.find_by(token: params[:token])
+    @user = User.new(fullname: invitation.invitee_name, email: invitation.invitee_email)
+    render :new
+  end
+
   def create
     @user = User.new(user_params)
     if @user.save

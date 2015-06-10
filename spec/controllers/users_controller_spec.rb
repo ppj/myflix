@@ -8,6 +8,21 @@ describe UsersController do
     end
   end
 
+  describe "GET new_invited" do
+    it "renders the new template" do
+      invitation = Fabricate :invitation
+      get :new_invited, token: invitation.token
+      expect(response).to render_template :new
+    end
+
+    it "sets @user to a new User with fullname and email" do
+      invitation = Fabricate :invitation, invitee_email: "joe@doe.com"
+      get :new_invited, token: invitation.token
+      expect(assigns(:user)).to be_a_new(User)
+      expect(assigns(:user).email).to eq('joe@doe.com')
+    end
+  end
+
   describe "POST create" do
     context "with valid credentials" do
       before { post :create, user: Fabricate.attributes_for(:user) }

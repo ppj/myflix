@@ -33,6 +33,12 @@ describe InvitationsController do
         expect(Invitation.count).to eq(1)
       end
 
+      it "sets the inviter to the current user" do
+        set_current_user
+        post :create, invitation: {invitee_name: "John Doe", invitee_email: "john@example.com", message: "Check it out!"}
+        expect(assigns(:invitation).inviter).to eq(current_user)
+      end
+
       it "displays a flash success message" do
         set_current_user
         post :create, invitation: {invitee_name: "John Doe", invitee_email: "john@example.com", message: "Check it out!"}

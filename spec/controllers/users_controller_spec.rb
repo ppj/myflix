@@ -9,17 +9,24 @@ describe UsersController do
   end
 
   describe "GET new_invited" do
-    it "renders the new template" do
-      invitation = Fabricate :invitation
-      get :new_invited, token: invitation.token
-      expect(response).to render_template :new
+    context "with valid token" do
+      it "renders the new template" do
+        invitation = Fabricate :invitation
+        get :new_invited, token: invitation.token
+        expect(response).to render_template :new
+      end
+
+      it "sets @user to a new User with fullname and email" do
+        invitation = Fabricate :invitation, invitee_email: "joe@doe.com"
+        get :new_invited, token: invitation.token
+        expect(assigns(:user)).to be_a_new(User)
+        expect(assigns(:user).email).to eq('joe@doe.com')
+      end
     end
 
-    it "sets @user to a new User with fullname and email" do
-      invitation = Fabricate :invitation, invitee_email: "joe@doe.com"
-      get :new_invited, token: invitation.token
-      expect(assigns(:user)).to be_a_new(User)
-      expect(assigns(:user).email).to eq('joe@doe.com')
+    it "shows the expired token page if invitation not found" do
+      get :new_invited, token: "notAValidToken"
+      expect(response).to render_template "pages/invalid_token"
     end
   end
 
@@ -51,6 +58,13 @@ describe UsersController do
         post :create, invitation_token: invitation.token, user: { fullname: invitation.invitee_name, email: invitation.invitee_email, password: "newPwd" }
         invitee = User.find_by(email: "joe@doe.com")
         expect(invitee.follows?(invitation.inviter)).to be true
+      end
+
+      it "deletes the invitation token" do
+        invitation = Fabricate :invitation, invitee_email: 'joe@doe.com'
+        post :create, invitation_token: invitation.token, user: { fullname: invitation.invitee_name, email: invitation.invitee_email, password: "newPwd" }
+        invitee = User.find_by(email: "joe@doe.com")
+        expect(invitation.reload.token).to be_nil
       end
     end
 

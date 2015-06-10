@@ -7,8 +7,12 @@ class UsersController < ApplicationController
 
   def new_invited
     invitation = Invitation.find_by(token: params[:token])
-    @user = User.new(fullname: invitation.invitee_name, email: invitation.invitee_email)
-    render :new
+    if invitation
+      @user = User.new(fullname: invitation.invitee_name, email: invitation.invitee_email)
+      render :new
+    else
+      render "pages/invalid_token" unless invitation
+    end
   end
 
   def create
@@ -18,6 +22,7 @@ class UsersController < ApplicationController
         invitation = Invitation.find_by(token: params[:invitation_token])
         invitation.inviter.follow(@user)
         @user.follow(invitation.inviter)
+        invitation.update_column(:token, nil)
       end
       flash[:success] = "You have successfully registered. You can sign in now!"
       AppMailer.welcome_email(@user).deliver

@@ -7,8 +7,13 @@ def current_user
   User.find(session[:user_id])
 end
 
-def sign_out_user
+def clear_user_from_session
   session[:user_id] = nil
+end
+
+def sign_out_user
+  click_on "Welcome, "
+  click_on "Sign Out"
 end
 
 def sign_in_user(user = nil)

@@ -20,5 +20,6 @@ feature "password reset" do
     fill_in "Password", with: "new_pwd"
     click_on "Sign in"
     expect_to_find "Welcome, #{bob.fullname}"
+    clear_emails
   end
 end

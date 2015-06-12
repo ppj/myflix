@@ -5,3 +5,10 @@ shared_examples "a gatekeeper redirecting an unauthenticated user" do
     expect(response).to redirect_to root_path
   end
 end
+
+shared_examples "tokenable" do
+  it "should have a token" do
+    expect(object.token).to be_present
+  end
+end
+

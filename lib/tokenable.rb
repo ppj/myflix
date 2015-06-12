@@ -3,11 +3,11 @@ module Tokenable
 
   included do
     after_create :generate_token
-  end
 
-  private
+    private
 
-  def generate_token
-    update_column :token, SecureRandom.urlsafe_base64
+    def generate_token
+      update_column :token, SecureRandom.urlsafe_base64
+    end
   end
 end

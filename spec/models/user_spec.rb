@@ -18,8 +18,7 @@ describe User do
   describe "#generate_token" do
     it "generates a new token for a user" do
       bob = Fabricate :user
-      expect(bob.token).to be_nil
-      bob.generate_token
+      expect{ bob.generate_token }.to change { bob.token }
       expect(bob.reload.token).to be_present
     end
   end

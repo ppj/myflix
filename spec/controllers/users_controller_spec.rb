@@ -8,18 +8,63 @@ describe UsersController do
     end
   end
 
+  describe "GET new_invited" do
+    context "with valid token" do
+      it "renders the new template" do
+        invitation = Fabricate :invitation
+        get :new_invited, token: invitation.token
+        expect(response).to render_template :new
+      end
+
+      it "sets @user to a new User with fullname and email" do
+        invitation = Fabricate :invitation, invitee_email: "joe@doe.com"
+        get :new_invited, token: invitation.token
+        expect(assigns(:user)).to be_a_new(User)
+        expect(assigns(:user).email).to eq('joe@doe.com')
+      end
+    end
+
+    it "shows the expired token page if invitation not found" do
+      get :new_invited, token: "notAValidToken"
+      expect(response).to redirect_to invalid_token_path
+    end
+  end
+
   describe "POST create" do
     context "with valid credentials" do
-      before { post :create, user: Fabricate.attributes_for(:user) }
-
       after { ActionMailer::Base.deliveries.clear }
 
       it "creates new user" do
+        post :create, user: Fabricate.attributes_for(:user)
         expect(User.count).to eq(1)
       end
 
       it "redirects to the sign-in page" do
+        post :create, user: Fabricate.attributes_for(:user)
         expect(response).to redirect_to(sign_in_path)
+      end
+
+      context "with invitation" do
+        it "sets the invited user to follow the inviter" do
+          invitation = Fabricate :invitation, invitee_email: 'joe@doe.com', inviter: Fabricate(:user)
+          post :create, invitation_token: invitation.token, user: { fullname: invitation.invitee_name, email: invitation.invitee_email, password: "newPwd" }
+          invitee = User.find_by(email: "joe@doe.com")
+          expect(invitation.inviter.follows?(invitee)).to be true
+        end
+
+        it "sets the inviter to follow the invited user" do
+          invitation = Fabricate :invitation, invitee_email: 'joe@doe.com', inviter: Fabricate(:user)
+          post :create, invitation_token: invitation.token, user: { fullname: invitation.invitee_name, email: invitation.invitee_email, password: "newPwd" }
+          invitee = User.find_by(email: "joe@doe.com")
+          expect(invitee.follows?(invitation.inviter)).to be true
+        end
+
+        it "deletes the invitation token" do
+          invitation = Fabricate :invitation, invitee_email: 'joe@doe.com', inviter: Fabricate(:user)
+          post :create, invitation_token: invitation.token, user: { fullname: invitation.invitee_name, email: invitation.invitee_email, password: "newPwd" }
+          invitee = User.find_by(email: "joe@doe.com")
+          expect(invitation.reload.token).to be_nil
+        end
       end
     end
 

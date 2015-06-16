@@ -11,14 +11,14 @@ describe ResetPasswordsController do
 
     it "renders user-token expired page if user is not found" do
       get :show, id: "abcdef"
-      expect(response).to render_template :invalid_token
+      expect(response).to redirect_to invalid_token_path
     end
   end
 
   describe "POST create" do
     it "renders user-token expired page if user is not found" do
       post :create, token: "abcdef", password: "new_pwd"
-      expect(response).to render_template :invalid_token
+      expect(response).to redirect_to invalid_token_path
     end
 
     it "resets the user's password" do

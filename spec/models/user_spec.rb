@@ -18,8 +18,7 @@ describe User do
   describe "#generate_token" do
     it "generates a new token for a user" do
       bob = Fabricate :user
-      expect(bob.token).to be_nil
-      bob.generate_token
+      expect{ bob.generate_token }.to change { bob.token }
       expect(bob.reload.token).to be_present
     end
   end
@@ -67,6 +66,27 @@ describe User do
 
     it "returns false if this user is the same as the other user" do
       expect(bob.can_follow?(bob)).to be_falsey
+    end
+  end
+
+  describe "#follow" do
+    let(:bob) { Fabricate :user }
+    let(:liz) { Fabricate :user }
+
+    it "sets one user to follow another user" do
+      bob.follow(liz)
+      expect(bob.follows?(liz)).to be true
+    end
+
+    it "does not set a following if already following" do
+      Following.create(follower: bob, followed: liz)
+      bob.follow(liz)
+      expect(Following.where(follower: bob, followed: liz).count).to eq(1)
+    end
+
+    it "does not set a following relationship with self" do
+      bob.follow(bob)
+      expect(bob.follows?(bob)).to be false
     end
   end
 end

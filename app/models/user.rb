@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include Tokenable
+
   has_secure_password validations: false
   has_many :reviews, -> { order "created_at DESC" }
   has_many :queue_items, -> { order :position }
@@ -31,12 +33,9 @@ class User < ActiveRecord::Base
     !(follows?(another_user) || self == another_user)
   end
 
-  def generate_token
-    update_column :token, SecureRandom.urlsafe_base64
-  end
-
   def reset_password(new_password)
-    self.update(password: new_password, token: nil)
+    self.update(password: new_password)
+    self.remove_token
   end
 
   def follow(another_user)

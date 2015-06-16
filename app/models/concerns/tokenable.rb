@@ -13,9 +13,11 @@ module Tokenable
     private
 
     def unique_token
-      begin
+      try_token = nil
+      loop do
         try_token = SecureRandom.urlsafe_base64
-      end while self.class.exists?(token: try_token)
+        break unless self.class.exists?(token: try_token)
+      end
       try_token
     end
   end

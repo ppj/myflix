@@ -35,6 +35,10 @@ class User < ActiveRecord::Base
     update_column :token, SecureRandom.urlsafe_base64
   end
 
+  def reset_password(new_password)
+    self.update(password: new_password, token: nil)
+  end
+
   def follow(another_user)
     followings.create(followed: another_user)
   end

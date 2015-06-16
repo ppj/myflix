@@ -4,6 +4,10 @@ module Tokenable
   included do
     before_create :generate_token
 
+    def remove_token
+      self.update_column(:token, nil)
+    end
+
     private
 
     def generate_token

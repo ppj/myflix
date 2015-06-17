@@ -5,6 +5,7 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'capybara/rails'
 require 'capybara/email/rspec'
+require 'sidekiq/testing'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -77,4 +78,6 @@ RSpec.configure do |config|
     # ...or explicitly enable both (default)
     # c.syntax = [:should, :expect]
   end
+
+  Sidekiq::Testing.inline!
 end

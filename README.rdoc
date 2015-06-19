@@ -1,4 +1,4 @@
-[![Circle CI](https://circleci.com/gh/ppj/myflix/tree/master.svg?style=svg)](https://circleci.com/gh/ppj/myflix/tree/master)
+<a href="https://circleci.com/gh/ppj/myflix/tree/master"><img src="https://circleci.com/gh/ppj/myflix/tree/master.svg?style=shield" alt="Circle CI"></img></a>
 
 == Welcome to Rails
 

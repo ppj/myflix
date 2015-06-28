@@ -6,18 +6,22 @@ describe Admin::VideosController do
       let(:action) { get :new }
     end
 
+    it "sets a video to a new Video" do
+      set_current_admin
+      get :new
+      expect(assigns(:video)).to be_a_new Video
+    end
+
     it "does not allow non-admins to add new video" do
-      bob = Fabricate :user
-      set_current_user bob
+      set_current_user
       get :new
       expect(response).to redirect_to root_path
     end
 
-    it "allows admins to see a new video form" do
-      bob = Fabricate :user, admin: true
-      set_current_user bob
+    it "sets a flash message for non-admin" do
+      set_current_user
       get :new
-      expect(response).to render_template :new
+      expect(flash[:info]).to be_present
     end
   end
 end

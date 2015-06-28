@@ -12,12 +12,19 @@ class ApplicationController < ActionController::Base
   end
 
   def require_user
-    access_denied 'This action is reserved for registered users only. Please sign in/up.' unless logged_in?
+    access_denied "This action is reserved for registered users only. Please sign in/up." unless logged_in?
+  end
+
+  def require_admin
+    if logged_in?
+      access_denied "This action is reserved for administrators only." unless current_user.admin?
+    else
+      require_user
+    end
   end
 
   def access_denied(msg)
     flash[:info] = msg
     redirect_to root_path
   end
-
 end

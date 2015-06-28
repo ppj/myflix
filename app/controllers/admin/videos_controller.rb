@@ -1,3 +1,2 @@
-class Admin::VideosController < ApplicationController
-  before_action :require_admin
+class Admin::VideosController < AdminsController
 end

@@ -56,14 +56,33 @@ describe Admin::VideosController do
     end
 
     context "with invalid inputs" do
-      it "does not create a new video"
+      it "does not create a new video" do
+        category = Fabricate :category
+        set_current_admin
+        post :create, video: {category_id: category.id, description: "some thing to watch out for!"}
+        expect(category.videos.count).to eq(0)
+      end
 
-      it "sets the @video variable"
+      it "sets the @video variable" do
+        category = Fabricate :category
+        set_current_admin
+        post :create, video: {category_id: category.id, description: "some thing to watch out for!"}
+        expect(assigns(:video)).to be_a_new(Video)
+      end
 
-      it "renders the add new videos form"
+      it "renders the add new videos form" do
+        category = Fabricate :category
+        set_current_admin
+        post :create, video: {category_id: category.id, description: "some thing to watch out for!"}
+        expect(response).to render_template :new
+      end
 
-      it "sets a flash error message"
-
+      it "sets a flash error message" do
+        category = Fabricate :category
+        set_current_admin
+        post :create, video: {category_id: category.id, description: "some thing to watch out for!"}
+        expect(flash[:danger]).to be_present
+      end
     end
   end
 end

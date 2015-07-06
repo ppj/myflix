@@ -33,11 +33,26 @@ describe Admin::VideosController do
     end
 
     context "with valid inputs" do
-      it "redirects back to the add new videos page"
+      it "redirects back to the add new videos page" do
+        category = Fabricate :category
+        set_current_admin
+        post :create, video: {title: "New Video", category_id: category.id, description: "some thing to watch out for!"}
+        expect(response).to redirect_to new_admin_video_path
+      end
 
-      it "creates a new video"
+      it "creates a new video" do
+        category = Fabricate :category
+        set_current_admin
+        post :create, video: {title: "New Video", category_id: category.id, description: "some thing to watch out for!"}
+        expect(category.videos.count).to eq(1)
+      end
 
-      it "sets a flash success message"
+      it "sets a flash success message" do
+        category = Fabricate :category
+        set_current_admin
+        post :create, video: {title: "New Video", category_id: category.id, description: "some thing to watch out for!"}
+        expect(flash[:success]).to be_present
+      end
     end
 
     context "with invalid inputs" do

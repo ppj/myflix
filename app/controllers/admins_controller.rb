@@ -3,7 +3,9 @@ class AdminsController < ApplicationController
   before_action :require_admin
 
   def require_admin
-    access_denied "You are not authorized to do that." unless current_user.admin?
+    unless current_user.admin?
+      flash[:danger] = "Your are not authorized to do that."
+      redirect_to home_path
+    end
   end
-
 end

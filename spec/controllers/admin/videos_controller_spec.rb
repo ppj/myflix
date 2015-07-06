@@ -12,16 +12,43 @@ describe Admin::VideosController do
       expect(assigns(:video)).to be_a_new Video
     end
 
-    it "does not allow non-admins to add new video" do
-      set_current_user
-      get :new
-      expect(response).to redirect_to root_path
+    it_behaves_like "a gatekeeper redirecting a non-admin user" do
+      let(:action) { get :new }
     end
 
     it "sets a flash message for non-admin" do
       set_current_user
       get :new
-      expect(flash[:info]).to be_present
+      expect(flash[:danger]).to be_present
+    end
+  end
+
+  describe "POST create" do
+    it_behaves_like "a gatekeeper redirecting an unauthenticated user" do
+      let(:action) { post :create }
+    end
+
+    it_behaves_like "a gatekeeper redirecting a non-admin user" do
+      let(:action) { post :create }
+    end
+
+    context "with valid inputs" do
+      it "redirects back to the add new videos page"
+
+      it "creates a new video"
+
+      it "sets a flash success message"
+    end
+
+    context "with invalid inputs" do
+      it "does not create a new video"
+
+      it "sets the @video variable"
+
+      it "renders the add new videos form"
+
+      it "sets a flash error message"
+
     end
   end
 end

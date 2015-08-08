@@ -9,10 +9,10 @@
 comedy = Category.create(name: 'TV Comedy')
 drama  = Category.create(name: 'TV Drama')
 
-monk = Video.create(title: "Monk", description: "Lorem impsum...", small_cover_url: "/tmp/monk.jpg", large_cover_url: "/tmp/monk_large.jpg", category: drama)
-south_park = Video.create(title: "South Park", description: "Cartoon TV Series with some crazy kids!", small_cover_url: "/tmp/south_park.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
-family_guy = Video.create(title: "Family Guy", description: "Comedy Cartoon TV Series for mature audience", small_cover_url: "/tmp/family_guy.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
-futurama = Video.create(title: "Futurama", description: "Comedy Cartoon TV Series about space travel", small_cover_url: "/tmp/futurama.jpg", large_cover_url: "/tmp/monk_large.jpg", category: comedy)
+monk = Video.create(title: "Monk", description: "Lorem impsum...", small_cover: "/tmp/monk.jpg", large_cover: "/tmp/monk_large.jpg", category: drama)
+south_park = Video.create(title: "South Park", description: "Cartoon TV Series with some crazy kids!", small_cover: "/tmp/south_park.jpg", large_cover: "/tmp/monk_large.jpg", category: comedy)
+family_guy = Video.create(title: "Family Guy", description: "Comedy Cartoon TV Series for mature audience", small_cover: "/tmp/family_guy.jpg", large_cover: "/tmp/monk_large.jpg", category: comedy)
+futurama = Video.create(title: "Futurama", description: "Comedy Cartoon TV Series about space travel", small_cover: "/tmp/futurama.jpg", large_cover: "/tmp/monk_large.jpg", category: comedy)
 
 bob = User.create(email: 'bob@sample.com', password: 'pwd', fullname: 'Bob Sample')
 bob.queue_items.create(video: monk, position: 1)

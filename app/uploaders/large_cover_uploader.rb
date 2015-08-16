@@ -1,5 +1,5 @@
 class LargeCoverUploader < CarrierWave::Uploader::Base
-  include CarrierWave::RMagick
+  include CarrierWave::MiniMagick
 
   process resize_to_fill: [665, 375]
 end

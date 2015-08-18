@@ -31,3 +31,6 @@ dump.rdb
 # Ignore zeus files
 zeus.json
 custom_plan.rb
+
+# Ignore public/uploads folder
+public/uploads/

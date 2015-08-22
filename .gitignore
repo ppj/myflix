@@ -27,7 +27,6 @@ dump.rdb
 # Ignore environment variables [IMPORTANT]
 .env
 
-# Ignore environment variables [IMPORTANT]
 # Ignore zeus files
 zeus.json
 custom_plan.rb

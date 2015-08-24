@@ -15,6 +15,8 @@ gem 'figaro'
 gem 'sidekiq'
 gem 'unicorn'
 gem 'sentry-raven'
+gem 'carrierwave-aws'
+gem 'mini_magick'
 
 group :development do
   gem 'thin'
@@ -24,6 +26,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'pry'
   gem 'pry-nav'
   gem 'rspec-rails', '2.99'

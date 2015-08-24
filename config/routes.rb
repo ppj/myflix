@@ -19,6 +19,10 @@ Myflix::Application.routes.draw do
   get 'register', to: 'users#new'
   get 'register/:token', to: 'users#new_invited', as: 'register_invited'
 
+  namespace :admin do
+    resources :videos, only: [:new, :create]
+  end
+
   get 'forgot_password', to: 'forgot_passwords#new'
   resources :forgot_passwords, only: [:create]
   get 'confirm_password_reset', to: 'forgot_passwords#confirm'

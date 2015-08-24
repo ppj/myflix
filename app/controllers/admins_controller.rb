@@ -4,7 +4,7 @@ class AdminsController < ApplicationController
 
   def require_admin
     unless current_user.admin?
-      flash[:danger] = "Your are not authorized to do that."
+      flash[:danger] = "You are not authorized to do that."
       redirect_to home_path
     end
   end

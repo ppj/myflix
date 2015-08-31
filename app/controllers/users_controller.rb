@@ -19,6 +19,14 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       handle_invitation
+
+      Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
+      charge = Stripe::Charge.create(
+        :amount => 999,
+        :currency => "aud",
+        :source => params[:stripeToken],
+        :description => "MyFlix Sign Up Charge for #{@user.email}"
+      )
       flash[:success] = "You have successfully registered. You can sign in now!"
       AppMailer.welcome_email(@user).deliver
       redirect_to sign_in_path
@@ -39,7 +47,7 @@ class UsersController < ApplicationController
   end
 
   def handle_invitation
-    if params[:invitation_token]
+    unless params[:invitation_token].empty?
       invitation = Invitation.find_by(token: params[:invitation_token])
       invitation.inviter.follow(@user)
       @user.follow(invitation.inviter)

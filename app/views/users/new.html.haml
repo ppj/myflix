@@ -1,3 +1,9 @@
+= content_for :head do
+  %script(src="https://js.stripe.com/v2/")
+  :javascript
+    Stripe.setPublishableKey("#{ENV['STRIPE_PUBLISHABLE_KEY']}")
+  = javascript_include_tag 'payments'
+
 %section.register.container
   .row
     .col-sm-10.col-sm-offset-1
@@ -9,6 +15,30 @@
           = f.password_field :password
           = f.text_field     :fullname, label: 'Full Name'
           = hidden_field_tag :invitation_token, params[:token]
+        %fieldset.credit_card
+          %span.payment-errors
+          .form-group
+            = label_tag nil, "Credit Card Number", class: "control-label col-sm-2"
+            .col-sm-6
+              = text_field_tag nil, nil, class: "form-control", data: {stripe: "number"}
+          .form-group
+            = label_tag nil, "Security Code", class: "control-label col-sm-2"
+            .col-sm-6
+              = text_field_tag nil, nil, class: "form-control", data: {stripe: "cvc"}
+          .form-group
+            %label.control-label.col-sm-2 Expiration
+            .col-sm-3
+              = select_month(Date.today,
+                  {add_month_numbers: true},
+                  name: nil,
+                  class: 'form-control',
+                  ata: {stripe: 'exp-month'})
+            .col-sm-2
+              = select_year(Date.today.year,
+                  {start_year: Date.today.year, end_year: Date.today.year + 4},
+                  name: nil,
+                  class: 'form-control',
+                  data: {stripe: 'exp-year'})
         %fieldset.actions.control-group.col-sm-offset-2
           .controls
-            %script(src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{ENV['STRIPE_PUBLISHABLE_KEY']}" data-name="MyFlix PJ" data-description="Sign Up" data-currency="aud" data-amount="999" data-locale="auto" data-panel-label="Pay AU$ 9.99 & Sign Up" data-label="Pay AU$ 9.99 & Sign Up")
+            = f.submit "Sign Up"

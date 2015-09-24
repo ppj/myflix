@@ -1,5 +1,9 @@
 require 'spec_helper'
 
+Capybara.register_driver :selenium do |app|
+    Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
+
 feature "friend invitation" do
   scenario "user can invite a friend to join myflix" do
     jane = Fabricate :user
@@ -29,6 +33,8 @@ def friend_accepts_invitation
   open_email "joe@example.com"
   current_email.click_link "Click here to accept the invitation."
   fill_in "Password", with: "friend_password"
+  fill_in "Credit Card Number", with: "4242424242424242"
+  fill_in "Security Code", with: "123"
   click_on "Sign Up"
 end
 

@@ -31,8 +31,17 @@ describe UsersController do
   end
 
   describe "POST create" do
+    before do
+      allow(Stripe::Charge).to receive(:create)
+    end
+
     context "with valid credentials" do
       after { ActionMailer::Base.deliveries.clear }
+
+      it "calls Stripe to charge user with subscription fees" do
+        expect(Stripe::Charge).to receive(:create)
+        post :create, user: Fabricate.attributes_for(:user)
+      end
 
       it "creates new user" do
         post :create, user: Fabricate.attributes_for(:user)

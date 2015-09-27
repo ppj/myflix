@@ -1,11 +1,7 @@
 require 'spec_helper'
 
-Capybara.register_driver :selenium do |app|
-    Capybara::Selenium::Driver.new(app, :browser => :chrome)
-end
-
 feature "friend invitation" do
-  scenario "user can invite a friend to join myflix" do
+  scenario "user can invite a friend to join myflix", js: true do
     jane = Fabricate :user
     sign_in_user jane
 

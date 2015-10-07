@@ -33,3 +33,6 @@ custom_plan.rb
 
 # Ignore public/uploads folder
 public/uploads/
+
+# Ignore Procfile.dev
+Procfile.dev

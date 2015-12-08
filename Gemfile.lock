@@ -280,7 +280,7 @@ DEPENDENCIES
   capybara-email
   carrierwave-aws
   coffee-rails
-  database_cleaner (= 1.2.0)
+  database_cleaner
   dotenv-rails
   fabrication
   faker

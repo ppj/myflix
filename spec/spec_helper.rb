@@ -25,11 +25,13 @@ ActiveRecord::Migration.maintain_test_schema!
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, :browser => :chrome)
 end
+Capybara.server_port = 52662
 
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/cassettes'
   c.hook_into :webmock
   c.configure_rspec_metadata!
+  c.ignore_localhost = true
 end
 
 RSpec.configure do |config|
@@ -47,7 +49,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -96,4 +98,21 @@ RSpec.configure do |config|
   # so we can use :vcr rather than :vcr => true;
   # in RSpec 3 this will no longer be necessary.
   config.treat_symbols_as_metadata_keys_with_true_values = true
+
+  # database_cleaner config from Avdi Grim (http://bit.ly/1dunbrq)
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+  config.before(:each, :js => true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end

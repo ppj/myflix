@@ -64,7 +64,7 @@ describe UsersController do
         let(:charge) do
           double(:charge,
                  successful?: false,
-                error_message: "Your card was declined.")
+                 error_message: "Your card was declined.")
         end
 
         it "does not create a new user" do
@@ -83,9 +83,9 @@ describe UsersController do
 
     context "with invalid personal information" do
       before do
-        post :create, user: {fullname: 'P',
-                             password: 'pwd',
-                             email: 'a@b.com'}
+        post :create, user: {fullname: 'Passwordless Joe',
+                             password: '',
+                             email: 'idontbelieve@inpasswrds.com'}
       end
 
       it "sets @user to a new User" do

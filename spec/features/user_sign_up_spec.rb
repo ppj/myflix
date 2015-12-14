@@ -12,7 +12,7 @@ feature "User Sign Up", js: true, vcr: true do
     expect(page).to have_content "You have successfully registered. You can sign in now!"
   end
 
-  scenario "with valid personal info but invalid credit card" do
+  scenario "with valid personal info but expired credit card" do
     enter_valid_personal_info
     submit_with_expired_card
 
@@ -33,7 +33,7 @@ feature "User Sign Up", js: true, vcr: true do
     expect(page).to have_content "Please fix the highlighted errors before continuing..."
   end
 
-  scenario "with invalid personal info and credit card" do
+  scenario "with invalid personal info and expired credit card" do
     enter_invalid_personal_info
     submit_with_expired_card
 
@@ -55,7 +55,9 @@ def enter_valid_personal_info
 end
 
 def enter_invalid_personal_info
-  fill_in "Email Address", with: "johny@super.man"
+  fill_in "Email Address", with: "mrNo@Name.com"
+  fill_in "Password", with: "pass is the word"
+  fill_in "Full Name", with: ""
 end
 
 def submit_with_valid_card

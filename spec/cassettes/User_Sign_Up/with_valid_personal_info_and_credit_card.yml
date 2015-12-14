@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/charges
     body:
       encoding: US-ASCII
-      string: amount=999&currency=aud&source=tok_17HENoDKp2PH1im8ITb6FMfw&description=MyFlix%20Sign%20Up%20Charge%20for%20johny%40super.man
+      string: amount=999&currency=aud&source=tok_17HvhgDKp2PH1im8igm0SiX5&description=MyFlix%20Sign%20Up%20Charge%20for%20johny%40super.man
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -31,7 +31,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 12 Dec 2015 14:30:02 GMT
+      - Mon, 14 Dec 2015 12:45:26 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7WGvdxl9fmmBfS
+      - req_7WzhBYHIMAE7Vw
       Stripe-Version:
       - '2015-08-19'
       Strict-Transport-Security:
@@ -58,14 +58,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "ch_17HENqDKp2PH1im8mawfuVdo",
+          "id": "ch_17HvhhDKp2PH1im8eHEG1rjc",
           "object": "charge",
           "amount": 999,
           "amount_refunded": 0,
           "application_fee": null,
-          "balance_transaction": "txn_17HENqDKp2PH1im8wTCrnSWu",
+          "balance_transaction": "txn_17HvhiDKp2PH1im8xEOvyDBQ",
           "captured": true,
-          "created": 1449930602,
+          "created": 1450097125,
           "currency": "aud",
           "customer": null,
           "description": "MyFlix Sign Up Charge for johny@super.man",
@@ -86,11 +86,11 @@ http_interactions:
             "data": [],
             "has_more": false,
             "total_count": 0,
-            "url": "/v1/charges/ch_17HENqDKp2PH1im8mawfuVdo/refunds"
+            "url": "/v1/charges/ch_17HvhhDKp2PH1im8eHEG1rjc/refunds"
           },
           "shipping": null,
           "source": {
-            "id": "card_17HENoDKp2PH1im8dVS2AXiF",
+            "id": "card_17HvhgDKp2PH1im81Gnr0XfH",
             "object": "card",
             "address_city": null,
             "address_country": null,
@@ -118,5 +118,5 @@ http_interactions:
           "status": "succeeded"
         }
     http_version: 
-  recorded_at: Sat, 12 Dec 2015 14:30:02 GMT
+  recorded_at: Mon, 14 Dec 2015 12:45:27 GMT
 recorded_with: VCR 2.9.3

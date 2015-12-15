@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature "friend invitation" do
-  scenario "user can invite a friend to join myflix", js: true do
+  scenario "user can invite a friend to join myflix", js: true, vcr: true do
     jane = Fabricate :user
     sign_in_user jane
 
@@ -31,10 +31,13 @@ def friend_accepts_invitation
   fill_in "Password", with: "friend_password"
   fill_in "Credit Card Number", with: "4242424242424242"
   fill_in "Security Code", with: "123"
+  select "7 - July", from: "date_month"
+  select (Time.now.year+1), from: "date_year"
   click_on "Sign Up"
 end
 
 def friend_signs_in
+  expect_to_find("input[value='Sign in']", :selector)
   fill_in "Email Address", with: "joe@example.com"
   fill_in "Password", with: "friend_password"
   click_on "Sign in"

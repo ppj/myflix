@@ -37,7 +37,7 @@ def friend_accepts_invitation
 end
 
 def friend_signs_in
-  sleep 2
+  expect_to_find("input[value='Sign in']", :selector)
   fill_in "Email Address", with: "joe@example.com"
   fill_in "Password", with: "friend_password"
   click_on "Sign in"

@@ -10,11 +10,11 @@ describe UserSignup do
       end
 
       before do
-        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        expect(StripeWrapper::Charge).to receive(:create).and_return(charge_result)
       end
 
       context "and valid credit card" do
-        let(:charge) { double(:charge, successful?: true) }
+        let(:charge_result) { double(:charge_result, successful?: true) }
 
         subject(:perform) do
           described_class.perform(user: user,
@@ -77,8 +77,8 @@ describe UserSignup do
       end
 
       context "but with an invalid credit card" do
-        let(:charge) do
-          double(:charge,
+        let(:charge_result) do
+          double(:charge_result,
                  successful?: false,
                  error_message: "Your card was declined.")
         end

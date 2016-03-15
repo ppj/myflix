@@ -14,18 +14,11 @@ class UserSignup
 
   def perform
     if user.valid?
-      charge = StripeWrapper::Charge.create(
-        amount: 999,
-        source: stripe_token,
-        description: "MyFlix Sign Up Charge for #{user.email}"
-      )
-      if charge.successful?
-        user.save
-        handle_invitation
-        AppMailer.welcome_email(user).deliver
-        @success = true
+      charge_result = charge_credit_card
+      if charge_result.successful?
+        user_sign_up_success_steps
       else
-        @error_message = charge.error_message
+        @error_message = charge_result.error_message
       end
     else
        @error_message = "Please fix the highlighted errors before continuing..."
@@ -40,6 +33,21 @@ class UserSignup
   private
 
   attr_reader :user, :invitation_token, :stripe_token
+
+  def charge_credit_card
+    StripeWrapper::Charge.create(
+      amount: 999,
+      source: stripe_token,
+      description: "MyFlix Sign Up Charge for #{user.email}"
+    )
+  end
+
+  def user_sign_up_success_steps
+    user.save
+    handle_invitation
+    AppMailer.welcome_email(user).deliver
+    @success = true
+  end
 
   def handle_invitation
     if invitation_token.present?

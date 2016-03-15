@@ -18,8 +18,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     result = UserSignup.perform(user: @user,
-                                invitation_token: params[:invitation_token],
-                                stripe_token: params[:stripeToken])
+                                stripe_token: params[:stripeToken],
+                                invitation_token: params[:invitation_token])
     if result.successful?
       flash[:success] = "You have successfully registered. You can sign in now!"
       redirect_to sign_in_path

@@ -1,19 +1,19 @@
 class UserSignup
   attr_reader :error_message
 
-  def self.perform(user:, invitation_token:, stripe_token:)
-    new(user, invitation_token, stripe_token).perform
+  def self.perform(user:, stripe_token:, invitation_token: nil)
+    new(user, stripe_token, invitation_token).perform
   end
 
-  def initialize(user, invitation_token, stripe_token)
+  def initialize(user, stripe_token, invitation_token)
     @user = user
-    @invitation_token = invitation_token
     @stripe_token = stripe_token
+    @invitation_token = invitation_token
+    Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
   end
 
   def perform
     if user.valid?
-      Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
       charge = StripeWrapper::Charge.create(
         amount: 999,
         source: stripe_token,

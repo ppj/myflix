@@ -2,14 +2,6 @@ require 'spec_helper'
 
 describe UserSignup do
   describe ".perform" do
-    subject(:perform) do
-      described_class.perform(user: user,
-                              invitation_token: invitation_token,
-                              stripe_token: stripe_token)
-    end
-    let(:stripe_token) { "garble" }
-    let(:invitation_token) { nil }
-
     context "with valid personal information" do
       let(:user) do
         Fabricate.build(:user,
@@ -24,11 +16,16 @@ describe UserSignup do
       context "and valid credit card" do
         let(:charge) { double(:charge, successful?: true) }
 
+        subject(:perform) do
+          described_class.perform(user: user,
+                                  stripe_token: "garbled_token",
+                                  invitation_token: nil)
+        end
+
         after { ActionMailer::Base.deliveries.clear }
 
         it "creates new user" do
-          perform
-          expect(User.count).to eq(1)
+          expect { perform }.to change { User.count }.by 1
         end
 
         it "sends the welcome email to new user" do
@@ -44,7 +41,14 @@ describe UserSignup do
         end
 
         context "with invitation" do
-          let(:invitation_token) { "invitation_token" }
+          let(:invitation_token) { "valid_invitation_token" }
+
+          subject(:perform) do
+            described_class.perform(user: user,
+                                    stripe_token: "garbled_token",
+                                    invitation_token: invitation_token)
+          end
+
           let(:invitation) do
             Fabricate(:invitation,
                       invitee_email: 'joe@doe.com',
@@ -79,9 +83,14 @@ describe UserSignup do
                  error_message: "Your card was declined.")
         end
 
+        subject(:perform) do
+          described_class.perform(user: user,
+                                  stripe_token: "garbled_token",
+                                  invitation_token: nil)
+        end
+
         it "does not create a new user" do
-          perform
-          expect(User.count).to eq 0
+          expect { perform }.to_not change { User.count }
         end
 
         it "sets the error message" do
@@ -92,23 +101,27 @@ describe UserSignup do
 
     context "with invalid personal information" do
       let(:user) do
-        Fabricate.build(:user, fullname: "Joe Doe", email: nil)
+        Fabricate.build(:user, fullname: "Lookmaa Noemail", email: nil)
       end
 
-      before do
-        allow(StripeWrapper::Charge).to receive(:create)
-        perform
+      subject(:perform) do
+        described_class.perform(user: user,
+                                stripe_token: "doesnt_matter",
+                                invitation_token: nil)
       end
 
       it "does not save the new user" do
-        expect(User.count).to eq(0)
+        expect { perform }.to_not change { User.count }
       end
 
       it "does not attempt to charge the credit card" do
+        allow(StripeWrapper::Charge).to receive(:create)
+        perform
         expect(StripeWrapper::Charge).to_not have_received(:create)
       end
 
       it "does not send out the welcome email" do
+        perform
         expect(ActionMailer::Base.deliveries).to be_empty
       end
     end

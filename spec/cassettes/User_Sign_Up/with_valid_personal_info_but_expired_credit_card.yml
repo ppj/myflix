@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.stripe.com/v1/charges
+    uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: amount=999&currency=aud&source=tok_17HvhjDKp2PH1im89bCRBD5Z&description=MyFlix%20Sign%20Up%20Charge%20for%20johny%40super.man
+      string: email=johny%40super.man&plan=base&source=tok_17rpp1DKp2PH1im8JuyeFgAu&description=MyFlix%20subscription%20for%20johny%40super.man
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -18,11 +18,11 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
-      - '{"bindings_version":"1.25.0","lang":"ruby","lang_version":"2.1.5 p273 (2014-11-13)","platform":"x86_64-darwin14.0","engine":"ruby","publisher":"stripe","uname":"Darwin
-        Prasannas-MBP 14.5.0 Darwin Kernel Version 14.5.0: Tue Sep  1 21:23:09 PDT
-        2015; root:xnu-2782.50.1~1/RELEASE_X86_64 x86_64","hostname":"Prasannas-MBP"}'
+      - '{"bindings_version":"1.25.0","lang":"ruby","lang_version":"2.1.5 p273 (2014-11-13)","platform":"x86_64-darwin15.0","engine":"ruby","publisher":"stripe","uname":"Darwin
+        Prasannas-MBP 15.4.0 Darwin Kernel Version 15.4.0: Fri Feb 26 22:08:05 PST
+        2016; root:xnu-3248.40.184~3/RELEASE_X86_64 x86_64","hostname":"Prasannas-MBP"}'
       Content-Length:
-      - '125'
+      - '129'
   response:
     status:
       code: 402
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 14 Dec 2015 12:45:28 GMT
+      - Tue, 22 Mar 2016 13:45:24 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '186'
+      - '141'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7WzhJhYMNE9Ubc
+      - req_8861uFnKwpSg0q
       Stripe-Version:
       - '2015-08-19'
     body:
@@ -60,10 +60,9 @@ http_interactions:
             "message": "Your card has expired.",
             "type": "card_error",
             "param": "exp_month",
-            "code": "expired_card",
-            "charge": "ch_17HvhkDKp2PH1im8uBNxjdyD"
+            "code": "expired_card"
           }
         }
     http_version: 
-  recorded_at: Mon, 14 Dec 2015 12:45:29 GMT
+  recorded_at: Tue, 22 Mar 2016 13:45:25 GMT
 recorded_with: VCR 2.9.3

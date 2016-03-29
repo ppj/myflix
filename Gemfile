@@ -18,6 +18,7 @@ gem 'sentry-raven'
 gem 'carrierwave-aws'
 gem 'mini_magick'
 gem 'stripe'
+gem 'stripe_event'
 gem 'draper'
 
 group :development do

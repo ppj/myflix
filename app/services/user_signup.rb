@@ -9,12 +9,11 @@ class UserSignup
     @user = user
     @stripe_token = stripe_token
     @invitation_token = invitation_token
-    Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
   end
 
   def perform
     if user.valid?
-      new_subscription = subscribe_new_customer
+      @new_subscription = subscribe_new_customer
       if new_subscription.successful?
         user_sign_up_success_steps
       else
@@ -32,7 +31,7 @@ class UserSignup
 
   private
 
-  attr_reader :user, :invitation_token, :stripe_token
+  attr_reader :user, :invitation_token, :stripe_token, :new_subscription
 
   def subscribe_new_customer
     StripeWrapper::Customer.create(
@@ -43,6 +42,7 @@ class UserSignup
   end
 
   def user_sign_up_success_steps
+    user.customer_token = new_subscription.customer_token
     user.save
     handle_invitation
     AppMailer.welcome_email(user).deliver

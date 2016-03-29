@@ -15,10 +15,6 @@ describe StripeWrapper do
   let(:invalid_card_number) { "4000000000000002" }
   let(:valid_card_number) { "4111111111111111" }
 
-  before do
-    Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
-  end
-
   describe StripeWrapper::Charge do
     describe '.create' do
       subject(:response) do
@@ -67,6 +63,10 @@ describe StripeWrapper do
 
         it "creates a customer", :vcr do
           expect(response).to be_successful
+        end
+
+        it "sets the stripe customer token", :vcr do
+          expect(response.customer_token).to be_present
         end
       end
 

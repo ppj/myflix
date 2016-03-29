@@ -19,7 +19,11 @@ describe UserSignup do
       let(:stripe_token) { "garbled_stripe_token" }
 
       context "and valid credit card" do
-        let(:stripe_response) { double(:stripe_response, successful?: true) }
+        let(:stripe_response) do
+          double(:stripe_response,
+                 successful?: true,
+                 customer_token: "striped_customer_token_1234")
+        end
 
         subject(:perform) do
           described_class.perform(user: user,
@@ -31,6 +35,11 @@ describe UserSignup do
 
         it "creates new user" do
           expect { perform }.to change { User.count }.by 1
+        end
+
+        it "assigns the Stripe customer_token to the new user" do
+          perform
+          expect(User.last.customer_token).to eq "striped_customer_token_1234"
         end
 
         it "sends the welcome email to new user" do

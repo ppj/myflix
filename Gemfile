@@ -20,6 +20,8 @@ gem 'mini_magick'
 gem 'stripe'
 gem 'stripe_event'
 gem 'draper'
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
 
 group :development do
   gem 'thin'

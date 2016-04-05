@@ -1,4 +1,8 @@
 class Video < ActiveRecord::Base
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+  index_name "myflix_#{Rails.env}"
+
   validates_presence_of :title, :description
   belongs_to :category
   has_many :reviews, -> { order "created_at DESC" }
@@ -14,5 +18,9 @@ class Video < ActiveRecord::Base
   def rating
     video_rating = self.reviews.average(:rating)
     video_rating.round(1) if video_rating
+  end
+
+  def as_indexed_json(options={})
+    as_json(only: [:title])
   end
 end

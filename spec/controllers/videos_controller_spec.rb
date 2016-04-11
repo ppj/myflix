@@ -47,5 +47,4 @@ describe VideosController do
       expect(assigns(:videos)).to eq([test_video])
     end
   end
-
 end

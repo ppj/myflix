@@ -31,19 +31,21 @@ class Video < ActiveRecord::Base
       }
     }
 
-    if query.present? && options[:reviews]
-      search_definition[:query][:multi_match][:fields] << "reviews.body"
-    end
+    if query.present?
+      if options[:reviews]
+        search_definition[:query][:multi_match][:fields] << "reviews.body"
+      end
 
-    if options[:rating_from] || options[:rating_to]
-      search_definition[:filter] = {
-        range: {
-          rating: {
-            gte: (options[:rating_from] if options[:rating_from].present?),
-            lte: (options[:rating_to] if options[:rating_to].present?),
+      if options[:rating_from] || options[:rating_to]
+        search_definition[:filter] = {
+          range: {
+            rating: {
+              gte: (options[:rating_from] if options[:rating_from].present?),
+              lte: (options[:rating_to] if options[:rating_to].present?),
+            }
           }
         }
-      }
+      end
     end
 
     __elasticsearch__.search(search_definition)

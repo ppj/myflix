@@ -36,7 +36,7 @@ class Video < ActiveRecord::Base
         search_definition[:query][:multi_match][:fields] << "reviews.body"
       end
 
-      if options[:rating_from] || options[:rating_to]
+      if options[:rating_from].present? || options[:rating_to].present?
         search_definition[:filter] = {
           range: {
             rating: {

@@ -1,0 +1,44 @@
+%section.advanced_search.container
+  = form_tag advanced_search_videos_path, class: 'form-horizontal', method: :get do
+    %header
+      %h1 Advanced Search
+    .form-group
+      .col-sm-6
+        = search_field_tag :query, params[:query], placeholder: "Search videos by title, description", class: "form-control"
+    .form-group
+      .col-sm-6
+        .checkbox
+          %label
+            = check_box_tag :reviews, "y", params[:reviews] == "y"
+            Include Reviews
+    .form-group
+      .row.average_rating_label Average Rating
+      %label.col-sm-1.control-label(for="rating_from") From:
+      = label_tag :rating_from, "From:", class: "col-sm-1 control-label"
+      .col-sm-2
+        = select_tag :rating_from, options_for_video_rating_search(params[:rating_from]), prompt: "-", class: "form-control"
+      = label_tag :rating_to, "To:", class: "col-sm-1 control-label"
+      .col-sm-2
+        = select_tag :rating_to, options_for_video_rating_search(params[:rating_to]), prompt: "-", class: "form-control"
+    .form-group
+      .col-sm-6
+        = button_tag(type: "submit", class: "btn btn-primary") do
+          %span.glyphicon.glyphicon-search
+          Search
+  %hr
+  - if params[:query].present?
+    %h2.results_count Results: #{pluralize(@videos.count, "video")} found
+    - @videos.each do |video|
+      %article.video.row
+        .video_data
+          %figure.col-sm-2
+            = link_to video_path(video), nil do
+              %img{src: video.small_cover_url, alt: video.title}
+          .video_body.col-sm-10
+            %header
+              %h3= video.title
+            %p.video_description= video.description
+            %hr
+            .details
+              %span.average_rating Average rating: #{video.rating}
+              %span.reviews_count= pluralize(video.reviews.count, "review")

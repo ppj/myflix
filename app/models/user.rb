@@ -41,4 +41,8 @@ class User < ActiveRecord::Base
   def follow(another_user)
     followings.create(followed: another_user)
   end
+
+  def deactivate!
+    update_column(:active, false)
+  end
 end

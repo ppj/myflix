@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/tokens
     body:
       encoding: US-ASCII
-      string: card[number]=4000000000000002&card[exp_month]=12&card[exp_year]=2017&card[cvc]=314
+      string: card[number]=4000000000000002&card[exp_month]=12&card[exp_year]=2018&card[cvc]=314
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -18,9 +18,9 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
-      - '{"bindings_version":"1.25.0","lang":"ruby","lang_version":"2.1.5 p273 (2014-11-13)","platform":"x86_64-darwin14.0","engine":"ruby","publisher":"stripe","uname":"Darwin
-        Prasannas-MacBook-Pro.local 14.5.0 Darwin Kernel Version 14.5.0: Tue Sep  1
-        21:23:09 PDT 2015; root:xnu-2782.50.1~1/RELEASE_X86_64 x86_64","hostname":"Prasannas-MacBook-Pro.local"}'
+      - '{"bindings_version":"1.25.0","lang":"ruby","lang_version":"2.1.5 p273 (2014-11-13)","platform":"x86_64-darwin15.0","engine":"ruby","publisher":"stripe","uname":"Darwin
+        Prasannas-MBP 15.4.0 Darwin Kernel Version 15.4.0: Fri Feb 26 22:08:05 PST
+        2016; root:xnu-3248.40.184~3/RELEASE_X86_64 x86_64","hostname":"Prasannas-MBP"}'
       Content-Length:
       - '82'
   response:
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Thu, 10 Dec 2015 13:55:04 GMT
+      - Tue, 22 Mar 2016 13:30:06 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '781'
+      - '782'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7VVukZhPa2XQct
+      - req_885lqwRrrFHsWB
       Stripe-Version:
       - '2015-08-19'
       Strict-Transport-Security:
@@ -58,10 +58,10 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "tok_17GUsuDKp2PH1im8KDyOPVd3",
+          "id": "tok_17rpaEDKp2PH1im8PdOEucnX",
           "object": "token",
           "card": {
-            "id": "card_17GUsuDKp2PH1im8L2gAMCOJ",
+            "id": "card_17rpaEDKp2PH1im8Z7ueyuRp",
             "object": "card",
             "address_city": null,
             "address_country": null,
@@ -76,7 +76,7 @@ http_interactions:
             "cvc_check": "unchecked",
             "dynamic_last4": null,
             "exp_month": 12,
-            "exp_year": 2017,
+            "exp_year": 2018,
             "fingerprint": "47jfl62XdAGZHWlk",
             "funding": "credit",
             "last4": "0002",
@@ -84,20 +84,20 @@ http_interactions:
             "name": null,
             "tokenization_method": null
           },
-          "client_ip": "203.217.82.37",
-          "created": 1449755704,
+          "client_ip": "114.198.35.116",
+          "created": 1458653406,
           "livemode": false,
           "type": "card",
           "used": false
         }
     http_version: 
-  recorded_at: Thu, 10 Dec 2015 13:55:05 GMT
+  recorded_at: Tue, 22 Mar 2016 13:30:06 GMT
 - request:
     method: post
-    uri: https://api.stripe.com/v1/charges
+    uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: amount=400&currency=aud&source=tok_17GUsuDKp2PH1im8KDyOPVd3&description=Charge%20for%20test%40example.com
+      string: email=aspiring.user%40myflix.com&plan=base&source=tok_17rpaEDKp2PH1im8PdOEucnX&description=Charge%20for%20test%40example.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -110,11 +110,11 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
-      - '{"bindings_version":"1.25.0","lang":"ruby","lang_version":"2.1.5 p273 (2014-11-13)","platform":"x86_64-darwin14.0","engine":"ruby","publisher":"stripe","uname":"Darwin
-        Prasannas-MacBook-Pro.local 14.5.0 Darwin Kernel Version 14.5.0: Tue Sep  1
-        21:23:09 PDT 2015; root:xnu-2782.50.1~1/RELEASE_X86_64 x86_64","hostname":"Prasannas-MacBook-Pro.local"}'
+      - '{"bindings_version":"1.25.0","lang":"ruby","lang_version":"2.1.5 p273 (2014-11-13)","platform":"x86_64-darwin15.0","engine":"ruby","publisher":"stripe","uname":"Darwin
+        Prasannas-MBP 15.4.0 Darwin Kernel Version 15.4.0: Fri Feb 26 22:08:05 PST
+        2016; root:xnu-3248.40.184~3/RELEASE_X86_64 x86_64","hostname":"Prasannas-MBP"}'
       Content-Length:
-      - '105'
+      - '124'
   response:
     status:
       code: 402
@@ -123,11 +123,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Thu, 10 Dec 2015 13:55:06 GMT
+      - Tue, 22 Mar 2016 13:30:07 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '162'
+      - '134'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -141,7 +141,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7VVucEbiDN6Eez
+      - req_885lAjJGG89QNy
       Stripe-Version:
       - '2015-08-19'
     body:
@@ -151,10 +151,10 @@ http_interactions:
           "error": {
             "message": "Your card was declined.",
             "type": "card_error",
-            "code": "card_declined",
-            "charge": "ch_17GUswDKp2PH1im8Z7gMAIsu"
+            "param": "",
+            "code": "card_declined"
           }
         }
     http_version: 
-  recorded_at: Thu, 10 Dec 2015 13:55:07 GMT
-recorded_with: VCR 3.0.0
+  recorded_at: Tue, 22 Mar 2016 13:30:07 GMT
+recorded_with: VCR 2.9.3

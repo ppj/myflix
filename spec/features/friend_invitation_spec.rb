@@ -18,6 +18,7 @@ end
 
 def invite_a_friend
   visit new_invitation_path
+  wait_until_page_has "Friend's Name"
   fill_in "Friend's Name", with: "Joe Doe"
   fill_in "Friend's Email Address", with: "joe@example.com"
   fill_in "Invitation Message", with: "Join MyFlix and enjoy!"
@@ -37,7 +38,7 @@ def friend_accepts_invitation
 end
 
 def friend_signs_in
-  expect_to_find("input[value='Sign in']", :selector)
+  wait_until_page_has "input[value='Sign in']"
   fill_in "Email Address", with: "joe@example.com"
   fill_in "Password", with: "friend_password"
   click_on "Sign in"

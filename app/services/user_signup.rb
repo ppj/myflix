@@ -9,16 +9,15 @@ class UserSignup
     @user = user
     @stripe_token = stripe_token
     @invitation_token = invitation_token
-    Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
   end
 
   def perform
     if user.valid?
-      charge_result = charge_credit_card
-      if charge_result.successful?
+      @new_subscription = subscribe_new_customer
+      if new_subscription.successful?
         user_sign_up_success_steps
       else
-        @error_message = charge_result.error_message
+        @error_message = new_subscription.error_message
       end
     else
        @error_message = "Please fix the highlighted errors before continuing..."
@@ -32,17 +31,18 @@ class UserSignup
 
   private
 
-  attr_reader :user, :invitation_token, :stripe_token
+  attr_reader :user, :invitation_token, :stripe_token, :new_subscription
 
-  def charge_credit_card
-    StripeWrapper::Charge.create(
-      amount: 999,
+  def subscribe_new_customer
+    StripeWrapper::Customer.create(
+      email: user.email,
       source: stripe_token,
-      description: "MyFlix Sign Up Charge for #{user.email}"
+      description: "MyFlix subscription for #{user.email}"
     )
   end
 
   def user_sign_up_success_steps
+    user.customer_token = new_subscription.customer_token
     user.save
     handle_invitation
     AppMailer.welcome_email(user).deliver

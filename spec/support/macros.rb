@@ -19,6 +19,7 @@ end
 def sign_out_user
   click_on "Welcome, "
   click_on "Sign Out"
+  wait_until_page_has "You have logged out."
 end
 
 def sign_in_user(user = nil)
@@ -28,6 +29,18 @@ def sign_in_user(user = nil)
   fill_in "Email Address", with: user.email
   fill_in "Password", with: user.password
   click_button "Sign in"
+
+  # Wait for the page to load
+  if user.active?
+    wait_until_page_has "You have successfully logged in."
+  else
+    wait_until_page_has "Your account has been deactivated."
+  end
+end
+
+def wait_until_page_has(target, search_type=:content)
+  search_method = "has_#{search_type.to_s}?"
+  page.send(search_method, target)
 end
 
 def expect_to_find(target, search_type=:content)

@@ -8,6 +8,7 @@ Myflix::Application.routes.draw do
     resources :reviews, only: [:create]
     collection do
       get 'search', to: 'videos#search'
+      get 'advanced_search', to: 'videos#advanced_search', as: 'advanced_search'
     end
   end
 
@@ -21,6 +22,7 @@ Myflix::Application.routes.draw do
 
   namespace :admin do
     resources :videos, only: [:new, :create]
+    resources :payments, only: [:index]
   end
 
   get 'forgot_password', to: 'forgot_passwords#new'
@@ -40,4 +42,6 @@ Myflix::Application.routes.draw do
   resources :followings, only: [:create, :destroy]
 
   resources :invitations, only: [:new, :create]
+
+  mount StripeEvent::Engine, at: '/stripe_events'
 end

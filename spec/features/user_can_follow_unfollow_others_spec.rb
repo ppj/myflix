@@ -17,7 +17,7 @@ feature "Social networking feature" do
     expect_to_find nat.fullname
 
     unfollow nat
-    expect_to_not_find "//tr[contains(., '#{nat.fullname}')]", :xpath
+    expect_to_not_find "//tr[contains(., \"#{nat.fullname}\")]", :xpath
   end
 end
 

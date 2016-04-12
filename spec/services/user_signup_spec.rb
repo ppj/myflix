@@ -10,15 +10,24 @@ describe UserSignup do
       end
 
       before do
-        expect(StripeWrapper::Charge).to receive(:create).and_return(charge_result)
+        expect(StripeWrapper::Customer).to receive(:create).with(
+          email: "joe@doe.com",
+          source: stripe_token,
+          description: "MyFlix subscription for joe@doe.com"
+        ).and_return(stripe_response)
       end
+      let(:stripe_token) { "garbled_stripe_token" }
 
       context "and valid credit card" do
-        let(:charge_result) { double(:charge_result, successful?: true) }
+        let(:stripe_response) do
+          double(:stripe_response,
+                 successful?: true,
+                 customer_token: "striped_customer_token_1234")
+        end
 
         subject(:perform) do
           described_class.perform(user: user,
-                                  stripe_token: "garbled_token",
+                                  stripe_token: stripe_token,
                                   invitation_token: nil)
         end
 
@@ -26,6 +35,11 @@ describe UserSignup do
 
         it "creates new user" do
           expect { perform }.to change { User.count }.by 1
+        end
+
+        it "assigns the Stripe customer_token to the new user" do
+          perform
+          expect(User.last.customer_token).to eq "striped_customer_token_1234"
         end
 
         it "sends the welcome email to new user" do
@@ -45,7 +59,7 @@ describe UserSignup do
 
           subject(:perform) do
             described_class.perform(user: user,
-                                    stripe_token: "garbled_token",
+                                    stripe_token: stripe_token,
                                     invitation_token: invitation_token)
           end
 
@@ -77,15 +91,15 @@ describe UserSignup do
       end
 
       context "but with an invalid credit card" do
-        let(:charge_result) do
-          double(:charge_result,
+        let(:stripe_response) do
+          double(:stripe_response,
                  successful?: false,
                  error_message: "Your card was declined.")
         end
 
         subject(:perform) do
           described_class.perform(user: user,
-                                  stripe_token: "garbled_token",
+                                  stripe_token: stripe_token,
                                   invitation_token: nil)
         end
 

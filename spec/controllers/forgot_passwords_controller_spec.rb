@@ -39,8 +39,8 @@ describe ForgotPasswordsController do
       end
 
       it "does not send an email" do
-        post :create, email: 'what@ever.com'
-        expect(ActionMailer::Base.deliveries).to be_empty
+        expect { post :create, email: 'what@ever.com' }.
+          to_not change { ActionMailer::Base.deliveries.count }
       end
     end
   end

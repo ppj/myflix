@@ -81,8 +81,8 @@ describe InvitationsController do
 
       it "does not send the invitation email" do
         set_current_user
-        post :create, invitation: {invitee_email: "john@example.com", message: "Check it out!"}
-        expect(ActionMailer::Base.deliveries).to be_empty
+        expect { post :create, invitation: {invitee_email: "john@example.com", message: "Check it out!"} }.
+          to_not change { ActionMailer::Base.deliveries.count }
       end
     end
   end

@@ -31,8 +31,6 @@ describe UserSignup do
                                   invitation_token: nil)
         end
 
-        after { ActionMailer::Base.deliveries.clear }
-
         it "creates new user" do
           expect { perform }.to change { User.count }.by 1
         end
@@ -43,9 +41,8 @@ describe UserSignup do
         end
 
         it "sends the welcome email to new user" do
-          perform
+          expect { perform }.to change { ActionMailer::Base.deliveries.count }.by(1)
           email_message = ActionMailer::Base.deliveries.last
-          expect(ActionMailer::Base.deliveries).to_not be_empty
           expect(email_message.to).to eq(["joe@doe.com"])
         end
 
@@ -135,8 +132,7 @@ describe UserSignup do
       end
 
       it "does not send out the welcome email" do
-        perform
-        expect(ActionMailer::Base.deliveries).to be_empty
+        expect { perform }.to_not change { ActionMailer::Base.deliveries.count }
       end
     end
   end
